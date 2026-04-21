@@ -1,0 +1,35 @@
+{
+  "required" : [ "step" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "brandId" : {
+      "title" : "ID de la marca",
+      "description" : "ID de la marca obtenido del paso brands",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "modelId" : {
+      "title" : "ID del modelo",
+      "description" : "ID del modelo obtenido del paso models",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "step" : {
+      "title" : "Paso del catalogo",
+      "description" : "Que consultar: years, brands, models, versions",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "year" : {
+      "title" : "Ano del vehiculo",
+      "description" : "Ano del vehiculo, ej: 2024",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

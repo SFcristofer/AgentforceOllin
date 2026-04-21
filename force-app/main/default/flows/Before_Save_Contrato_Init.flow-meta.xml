@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Asignar_Fin_Vigente</name>
+        <label>Fin_Vigente = Fin_de_Contrato</label>
+        <locationX>50</locationX>
+        <locationY>480</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Fin_Contrato_Vigente__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Fin_de_Contrato__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Asignar_Valor_Vigente</name>
+        <label>Valor_Vigente = Valor_Contrato</label>
+        <locationX>50</locationX>
+        <locationY>240</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Valor_Contrato_Vigente__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Valor_Contrato__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_Fin_Vigente</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Set_Fin_Vigente</name>
+        <label>Poblar Fin_Contrato_Vigente</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <defaultConnectorLabel>Ya tiene, terminar</defaultConnectorLabel>
+        <rules>
+            <name>Fin_Vacio_Y_Original</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Fin_Contrato_Vigente__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Fin_de_Contrato__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignar_Fin_Vigente</targetReference>
+            </connector>
+            <label>Vacio, copiar original</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Set_Valor_Vigente</name>
+        <label>Poblar Valor_Contrato_Vigente</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <defaultConnector>
+            <targetReference>Set_Fin_Vigente</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Ya tiene, saltar</defaultConnectorLabel>
+        <rules>
+            <name>Valor_Vacio_Y_Original</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Valor_Contrato_Vigente__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Valor_Contrato__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignar_Valor_Vigente</targetReference>
+            </connector>
+            <label>Vacio, copiar original</label>
+        </rules>
+    </decisions>
+    <description>Before-Save: al crear un Contrato, copia Valor_Contrato y Fin_de_Contrato a los campos vigentes si estan vacios. Usa API names legacy del sandbox.</description>
+    <environments>Default</environments>
+    <interviewLabel>Before Save Contrato Init {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Before Save Contrato Init</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_Valor_Vigente</targetReference>
+        </connector>
+        <object>Contrato__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,40 @@
+REPORTE DE IMPLEMENTACIÓN: AGENTFORCE OLLIN PROTECCIÓN
+=====================================================
+Fecha de inicio: 21 de abril de 2026
+Prefijo de identificación: Tech_
+
+1. ARQUITECTURA DE SOLUCIÓN DESPLEGADA (21/04/2026)
+--------------------------------------------------
+A) CAPA DE INFRAESTRUCTURA (EL "MOTOR")
+   - Tech_MueveteSeguroBase: Maneja la comunicación HTTP, seguridad y reintentos (Error 429).
+   - Tech_MueveteSeguroWrappers: Diccionario de datos (DTOs) para que Agentforce entienda los objetos (Autos, Cotizaciones, Pólizas).
+
+B) CAPA DE SERVICIOS (LA "INTELIGENCIA")
+   - Tech_MueveteSeguroCatalogService: Lógica para navegar años, marcas, modelos y versiones.
+   - Tech_MueveteSeguroQuotationService: Aplica "Reglas de Oro" (validación de CP, Teléfono, Género y moneda MXN).
+   - Tech_MueveteSeguroPlanService: Cerebro dinámico para identificar campos requeridos por cada aseguradora (RFC, VIN, etc.).
+
+C) CAPA DE ACCIONES (LAS "HERRAMIENTAS" DEL AGENTE)
+   - Tech_GetVehicleCatalog: Herramienta para que el Agente busque vehículos en el catálogo de Ollin.
+   - Tech_CreateAutoQuotation: Herramienta para generar y mostrar precios de seguros al usuario.
+   - Tech_ProcessRequiredFields: Herramienta crítica para que el Agente pida datos específicos según la aseguradora elegida.
+
+2. ESTADO DE COMPONENTES
+------------------------
+- External Service: OllinBotV2 (COMPLETADO).
+- Named Credentials: MueveteSeguro_Bot_API (COMPLETADO).
+- Clases Apex Tech_: (EN PROCESO DE DESPLIEGUE).
+- Registro de Leads (Flow): Tech_Agentforce_Registro_de_Leads_Seguros (DESCARGADO PARA REFERENCIA).
+
+3. PRÓXIMOS PASOS
+-----------------
+- [X] Crear Arquitectura Base y Wrappers.
+- [X] Implementar CatalogService, QuotationService y PlanService.
+- [X] Crear Invocable Actions para Agentforce.
+- [ ] Configurar las acciones en el Setup de Agentforce en Salesforce.
+- [ ] Validar flujo de "Campos Dinámicos" con el Agente.
+
+=====================================================
+REGISTRO DE CAMBIOS:
+- 21/04/2026: Creación de arquitectura modular Tech_ y despliegue de OllinBotV2.
+- 21/04/2026: Implementación de 8 clases Apex para el motor de seguros.

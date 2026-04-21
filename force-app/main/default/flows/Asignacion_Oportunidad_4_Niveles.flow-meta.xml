@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Nivel_1_Reglas_Negocio</name>
+        <label>Nivel 1 - Reglas de negocio</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Nivel_3_ICP_Alto</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No cumple</defaultConnectorLabel>
+        <rules>
+            <name>Prima_Alta_O_Corporativo</name>
+            <conditionLogic>1 OR 2</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Prima_Estimada_MXN__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>50000.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Segmento__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporativo</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Nivel_1</targetReference>
+            </connector>
+            <label>Cumple</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Nivel_3_ICP_Alto</name>
+        <label>Nivel 3 - ICP alto</label>
+        <locationX>176</locationX>
+        <locationY>400</locationY>
+        <defaultConnector>
+            <targetReference>Set_Nivel_4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No cumple</defaultConnectorLabel>
+        <rules>
+            <name>Score_Alto</name>
+            <conditionLogic>1</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Precalificacion__r.Score_ICP__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>80.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Nivel_3</targetReference>
+            </connector>
+            <label>Cumple</label>
+        </rules>
+    </decisions>
+    <description>Flow de asignacion de Oportunidad a 4 niveles: reglas negocio &gt; ramo+geografia &gt; ICP alto &gt; ecosistema AI. Escribe en Vendedor_Asignado__c (lookup a Vendedores__c) para permitir asignar agentes AI sin consumir licencias.</description>
+    <environments>Default</environments>
+    <interviewLabel>Asignacion Oportunidad 4 Niveles {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Asignacion Oportunidad 4 Niveles</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Nivel_1</name>
+        <label>Set Nivel 1</label>
+        <locationX>50</locationX>
+        <locationY>250</locationY>
+        <inputAssignments>
+            <field>Nivel_Asignacion__c</field>
+            <value>
+                <stringValue>1 - Reglas de negocio</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_Nivel_3</name>
+        <label>Set Nivel 3</label>
+        <locationX>50</locationX>
+        <locationY>500</locationY>
+        <inputAssignments>
+            <field>Nivel_Asignacion__c</field>
+            <value>
+                <stringValue>3 - ICP alto</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_Nivel_4</name>
+        <label>Set Nivel 4 - Ecosistema AI</label>
+        <locationX>300</locationX>
+        <locationY>500</locationY>
+        <inputAssignments>
+            <field>Agente_Asignado_Inicial__c</field>
+            <value>
+                <stringValue>Oli</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Nivel_Asignacion__c</field>
+            <value>
+                <stringValue>4 - Ecosistema AI</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Nivel_1_Reglas_Negocio</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>InvalidDraft</status>
+</Flow>

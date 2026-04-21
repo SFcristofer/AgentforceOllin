@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalServiceRegistration xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>MueveteSeguroFinal</label>
+    <namedCredentialReference>MueveteSeguro_Bot_API</namedCredentialReference>
+    <operations>
+        <active>true</active>
+        <name>getyears</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>getbrands</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>getmodels</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>getversions</name>
+    </operations>
+    <operations>
+        <active>true</active>
+        <name>createquotation</name>
+    </operations>
+    <registrationProviderType>Custom</registrationProviderType>
+    <schema>{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Bot API Ollin Proteccion",
+    "version": "1.0.0",
+    "description": "API para cotización de seguros de auto para Agentforce"
+  },
+  "paths": {
+    "/bot/catalog/years": {
+      "get": {
+        "operationId": "getYears",
+        "responses": {
+          "200": {
+            "description": "Lista de años",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bot/catalog/brands": {
+      "get": {
+        "operationId": "getBrands",
+        "parameters": [
+          { "name": "year", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de marcas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bot/catalog/models": {
+      "get": {
+        "operationId": "getModels",
+        "parameters": [
+          { "name": "year", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "brandId", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de modelos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bot/catalog/versions": {
+      "get": {
+        "operationId": "getVersions",
+        "parameters": [
+          { "name": "year", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "modelId", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de versiones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bot/quotation": {
+      "post": {
+        "operationId": "createQuotation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleVersionId": { "type": "string" },
+                  "coverage": { "type": "string", "enum": ["AMPLIA", "LIMITADA", "RC"] },
+                  "insured": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "zipCode": { "type": "string" },
+                      "birthDate": { "type": "string" },
+                      "gender": { "type": "string", "enum": ["M", "F"] }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cotización generada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "quotationId": { "type": "string" },
+                    "expiresAt": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</schema>
+    <schemaType>OpenApi3</schemaType>
+    <status>Complete</status>
+    <systemVersion>8</systemVersion>
+</ExternalServiceRegistration>

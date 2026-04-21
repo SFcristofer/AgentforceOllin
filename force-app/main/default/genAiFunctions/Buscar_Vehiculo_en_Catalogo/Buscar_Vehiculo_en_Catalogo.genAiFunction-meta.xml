@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>ACCION OBLIGATORIA PARA SEGURO DE AUTO - PASO 1 DE 5. Cuando el usuario quiera cotizar seguro de auto, carro, coche o vehiculo, SIEMPRE usa esta accion PRIMERO, incluso si el usuario ya proporciono datos personales como codigo postal, fecha de nacimiento o genero. Guarda esos datos para el Paso 2. Esta accion busca anos, marcas, modelos y versiones de vehiculos en el catalogo MueveteSeguro. Llama con searchType=years para iniciar, luego searchType=brands con year, searchType=models con year+brandId, searchType=versions con year+modelId. El resultado final vehicleVersionId es necesario para el Paso 2 (Generar Cotizacion de Seguro). Si el usuario menciona Volkswagen, Toyota, Nissan, Jetta o cualquier marca/modelo de auto, USA ESTA ACCION.</description>
+    <developerName>Buscar_Vehiculo_en_Catalogo</developerName>
+    <invocationTarget>MueveteSeguroVehicleCatalog</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Buscar_Vehiculo_en_Catalogo</localDeveloperName>
+    <masterLabel>Buscar Vehiculo en Catalogo</masterLabel>
+    <progressIndicatorMessage>Buscando vehiculo en catalogo...</progressIndicatorMessage>
+</GenAiFunction>

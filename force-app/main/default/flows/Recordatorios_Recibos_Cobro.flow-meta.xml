@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Enviar_3_dias_antes</name>
+        <label>Enviar alerta 3 dias antes</label>
+        <locationX>50</locationX>
+        <locationY>288</locationY>
+        <actionName>Recibo_de_Cobro__c.Recibo_3_dias_antes_alert</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Recibo_de_Cobro__c.Recibo_3_dias_antes_alert</nameSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Enviar_dia_cobro</name>
+        <label>Enviar alerta dia del cobro</label>
+        <locationX>308</locationX>
+        <locationY>288</locationY>
+        <actionName>Recibo_de_Cobro__c.Recibo_dia_cobro_alert</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Recibo_de_Cobro__c.Recibo_dia_cobro_alert</nameSegment>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Decision_cual_alert</name>
+        <label>Que recordatorio enviar</label>
+        <locationX>176</locationX>
+        <locationY>144</locationY>
+        <defaultConnectorLabel>Ninguno hoy</defaultConnectorLabel>
+        <rules>
+            <name>Tres_dias_antes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Fecha_programada__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Fecha_3_dias_adelante</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Enviar_3_dias_antes</targetReference>
+            </connector>
+            <label>3 dias antes</label>
+        </rules>
+        <rules>
+            <name>Dia_del_cobro</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Fecha_programada__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Enviar_dia_cobro</targetReference>
+            </connector>
+            <label>Dia del cobro</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>Fecha_3_dias_adelante</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + 3</expression>
+    </formulas>
+    <interviewLabel>Recordatorios Recibos Cobro {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Recordatorios Recibos de Cobro</label>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Decision_cual_alert</targetReference>
+        </connector>
+        <object>Recibo_de_Cobro__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2026-04-19</startDate>
+            <startTime>09:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
