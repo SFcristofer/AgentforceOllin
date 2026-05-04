@@ -1,0 +1,75 @@
+================================================================================
+INFORMACIÓN MAESTRA: API MUEVETE SEGURO & MAPEOS SALESFORCE
+================================================================================
+
+Este documento contiene la información extraída de la API de Ollin (Muevete Seguro)
+para la creación de registros de Institución, Producto y Precios en Salesforce.
+
+--------------------------------------------------------------------------------
+1. IDENTIFICACIÓN DE LA API
+--------------------------------------------------------------------------------
+- Nombre: Bot API Ollin (Muevete Seguro)
+- Tipo: REST API (JSON)
+- Base URL: callout:MueveteSeguro_Bot_API
+- Propósito: Cotización y emisión de seguros multiramo (Auto, Vida, GMM).
+
+--------------------------------------------------------------------------------
+2. INSTITUCIONES (ASEGURADORAS)
+--------------------------------------------------------------------------------
+Valores exactos que deben crearse en Salesforce (Campo: Institucion__c):
+
+| Clave API | Nombre Comercial               |
+|-----------|--------------------------------|
+| GNP       | GNP Seguros                    |
+| HDI       | HDI Seguros                    |
+| ANA       | ANA Seguros                    |
+| QUALITAS  | Quálitas Compañía de Seguros   |
+| CHUBB     | Chubb Seguros                  |
+
+--------------------------------------------------------------------------------
+3. PRODUCTOS Y COBERTURAS (RAMO: AUTO)
+--------------------------------------------------------------------------------
+Valores exactos para productos/subproductos (Campo: Subproducto__c):
+
+| Clave API | Nombre del Producto      | Descripción Técnica                           |
+|-----------|--------------------------|-----------------------------------------------|
+| AMPLIA    | Cobertura Amplia         | Incluye daños materiales y robo total.        |
+| LIMITADA  | Cobertura Limitada       | Incluye robo total; NO incluye daños propios. |
+| RC        | Responsabilidad Civil    | Solo daños a terceros (Mínimo legal).         |
+
+--------------------------------------------------------------------------------
+4. ESTRUCTURA DE PRECIOS (DINÁMICOS)
+--------------------------------------------------------------------------------
+NOTA: La API no tiene precios fijos. El costo se calcula en tiempo real basado en:
+      Auto (Año/Modelo) + Asegurado (Edad/CP) + Cobertura.
+
+Componentes del Precio que entrega la API:
+- totalAmount: Monto total anual (Debe mapearse al UnitPrice en Salesforce).
+- currency: Siempre "MXN" (Pesos Mexicanos).
+- breakdown: Desglose de Prima Neta, IVA y Derechos de Póliza.
+- installmentOptions: Opciones de pago (Contado, 3, 6, 12 meses).
+
+--------------------------------------------------------------------------------
+5. MODELO DE DATOS DE VEHÍCULOS (CATÁLOGO)
+--------------------------------------------------------------------------------
+La API organiza la información de autos en la siguiente jerarquía:
+1. Año (Year)
+2. Marca (Brand)
+3. Modelo (Model)
+4. Versión (Version) -> Genera un 'vehicleVersionId' único para cotizar.
+
+--------------------------------------------------------------------------------
+6. MAPEO RECOMENDADO PARA OPPORTUNITY EN SALESFORCE
+--------------------------------------------------------------------------------
+| Campo API           | Campo Salesforce (Oportunidad) | Ejemplo              |
+|---------------------|--------------------------------|----------------------|
+| insurer             | Institucion__c                 | GNP                  |
+| coverage            | Subproducto__c                 | AMPLIA               |
+| "AUTO"              | Ramo__c                        | AUTO                 |
+| totalAmount         | Amount                         | 12500.00             |
+| quotationId         | ID_Cotizacion_Ext__c           | UUID-12345           |
+| policyId            | ID_Poliza_Ext__c               | POL-98765            |
+
+--------------------------------------------------------------------------------
+Documento generado automáticamente por Gemini CLI - 2026-05-04
+================================================================================

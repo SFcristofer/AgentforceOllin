@@ -1,40 +1,66 @@
 REPORTE DE IMPLEMENTACIÓN: AGENTFORCE OLLIN PROTECCIÓN
 =====================================================
-Fecha de inicio: 21 de abril de 2026
+Fecha de actualización: 21 de abril de 2026
 Prefijo de identificación: Tech_
+Estado: Cimientos Listos / Configuración Final en Proceso
 
-1. ARQUITECTURA DE SOLUCIÓN DESPLEGADA (21/04/2026)
+1. ARQUITECTURA DE SOLUCIÓN DESPLEGADA
 --------------------------------------------------
 A) CAPA DE INFRAESTRUCTURA (EL "MOTOR")
-   - Tech_MueveteSeguroBase: Maneja la comunicación HTTP, seguridad y reintentos (Error 429).
-   - Tech_MueveteSeguroWrappers: Diccionario de datos (DTOs) para que Agentforce entienda los objetos (Autos, Cotizaciones, Pólizas).
+   - Tech_MueveteSeguroBase: Maneja comunicación HTTP, seguridad y reintentos (Error 429).
+   - Tech_MueveteSeguroWrappers: Diccionario de datos (DTOs) para que el Agente entienda los objetos.
 
 B) CAPA DE SERVICIOS (LA "INTELIGENCIA")
    - Tech_MueveteSeguroCatalogService: Lógica para navegar años, marcas, modelos y versiones.
-   - Tech_MueveteSeguroQuotationService: Aplica "Reglas de Oro" (validación de CP, Teléfono, Género y moneda MXN).
-   - Tech_MueveteSeguroPlanService: Cerebro dinámico para identificar campos requeridos por cada aseguradora (RFC, VIN, etc.).
+   - Tech_MueveteSeguroQuotationService: Aplica "Reglas de Oro" (validación de CP, Teléfono, Género).
+   - Tech_MueveteSeguroPlanService: Cerebro dinámico para campos requeridos por aseguradora (RFC, VIN).
+   - Tech_MueveteSeguroPolicyService: Emisión de póliza, links de pago y consulta de estatus.
 
 C) CAPA DE ACCIONES (LAS "HERRAMIENTAS" DEL AGENTE)
-   - Tech_GetVehicleCatalog: Herramienta para que el Agente busque vehículos en el catálogo de Ollin.
-   - Tech_CreateAutoQuotation: Herramienta para generar y mostrar precios de seguros al usuario.
-   - Tech_ProcessRequiredFields: Herramienta crítica para que el Agente pida datos específicos según la aseguradora elegida.
+   - Tech_GetVehicleCatalog: Acción para búsqueda en el catálogo de Ollin.
+   - Tech_CreateAutoQuotation: Acción para generar y mostrar precios de seguros.
+   - Tech_ProcessRequiredFields: Acción crítica para pedir datos dinámicos (Paso 3).
+   - Tech_SubmitInsuredData: Acción para emitir póliza y obtener link de pago.
+   - Tech_Registro_Leads: Acción vinculada al Flow de registro en Salesforce (Paso 4).
 
-2. ESTADO DE COMPONENTES
-------------------------
-- External Service: OllinBotV2 (COMPLETADO).
-- Named Credentials: MueveteSeguro_Bot_API (COMPLETADO).
-- Clases Apex Tech_: (EN PROCESO DE DESPLIEGUE).
-- Registro de Leads (Flow): Tech_Agentforce_Registro_de_Leads_Seguros (DESCARGADO PARA REFERENCIA).
+2. ESTADO DE COMPONENTES EN LA ORG
+----------------------------------
+- [OK] External Service: OllinBotV2 (Activo).
+- [OK] Named Credentials: MueveteSeguro_Bot_API (Configurado).
+- [OK] Clases Apex Tech_ (8 clases desplegadas y compiladas).
+- [OK] GenAiFunctions Tech_ (5 funciones de IA registradas).
+- [OK] Repositorio GitHub: https://github.com/SFcristofer/AgentforceOllin.git (Sincronizado).
 
-3. PRÓXIMOS PASOS
------------------
-- [X] Crear Arquitectura Base y Wrappers.
-- [X] Implementar CatalogService, QuotationService y PlanService.
-- [X] Crear Invocable Actions para Agentforce.
-- [ ] Configurar las acciones en el Setup de Agentforce en Salesforce.
-- [ ] Validar flujo de "Campos Dinámicos" con el Agente.
+3. GUÍA DE CONFIGURACIÓN MANUAL (PASO A PASO)
+---------------------------------------------
+Para activar el nuevo motor, sigue estos pasos en la interfaz de Salesforce:
+
+A) CREAR/VERSIONAR EL AGENTE:
+   1. Ve a Setup > Agents > Einstein Service Agent.
+   2. Selecciona tu agente actual y haz clic en "New Version" (v2) para no perder lo anterior.
+   3. En el campo "Role", copia y pega las instrucciones de los 6 pasos (ver punto B).
+
+B) INSTRUCCIONES MAESTRAS (COPIAR Y PEGAR):
+   "Eres un Agente Experto en Seguros de Auto para Ollin Protección. Tu objetivo es guiar al usuario a través de 6 pasos obligatorios:
+   1. CATÁLOGO: Usa 'Tech: Buscar Vehículo en Catálogo' para elegir Año, Marca, Modelo y Versión.
+   2. COTIZACIÓN: Pide Nombre, Teléfono, CP, Fecha de Nacimiento (AAAA-MM-DD) y Género (M/F). Usa 'Tech: Generar Cotización de Auto'.
+   3. CAMPOS DINÁMICOS: Al elegir aseguradora, usa 'Tech: Procesar Campos de Aseguradora' y pide RFC o VIN si la herramienta lo indica.
+   4. REGISTRO DE LEAD: Usa 'Tech: Registro de Leads Seguros' para guardar al prospecto en Salesforce.
+   5. EMISIÓN: Usa 'Tech: Emitir Póliza y Pago' para generar la póliza.
+   6. PAGO: Entrega el link de pago obtenido al usuario.
+   REGLAS: Tono profesional. No inventes datos, búscalos siempre con tus herramientas Tech."
+
+C) AGREGAR ACCIONES:
+   En la pestaña "Actions", añade las 5 acciones con prefijo "Tech:". La IA priorizará estas sobre las viejas gracias a las nuevas instrucciones.
+
+4. BUENAS PRÁCTICAS DE VERSIONAMIENTO
+--------------------------------------
+- REVERSIBILIDAD: Si la v2 falla, puedes volver a activar la v1 en segundos desde la lista de versiones.
+- PRUEBAS SEGURAS: Usa el panel de "Preview" en la v2 (Draft) antes de activarla para el público.
+- LIMPIEZA: Una vez validada la v2, puedes archivar las acciones viejas para evitar confusión del Agente.
 
 =====================================================
 REGISTRO DE CAMBIOS:
 - 21/04/2026: Creación de arquitectura modular Tech_ y despliegue de OllinBotV2.
-- 21/04/2026: Implementación de 8 clases Apex para el motor de seguros.
+- 21/04/2026: Implementación de 8 clases Apex y 5 funciones de IA Tech.
+- 21/04/2026: Sincronización completa con GitHub y creación de Guía de Configuración.

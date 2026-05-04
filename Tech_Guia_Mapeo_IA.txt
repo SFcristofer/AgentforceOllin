@@ -1,0 +1,21 @@
+GUÍA TÉCNICA DE MAPEO PARA LA IA (AGENTFORCE)
+======================================================
+
+Para que el Agente traduzca correctamente las palabras del usuario a códigos de aseguradora, copia este párrafo en las "Topic Instructions":
+
+"REGLA DE TRADUCCIÓN DINÁMICA (CÓDIGOS):
+1. Cuando la herramienta 'Tech_ProcessRequiredFields' devuelva un campo de tipo 'select' (como Ocupación o Estado Civil), fíjate en su lista de 'options'.
+2. Cada opción tiene un 'label' (nombre amigable) y un 'value' (código técnico).
+3. Muestra al usuario los 'labels' para que elija, pero cuando vayas a enviar la información a la herramienta 'Tech_SubmitInsuredData', DEBES enviar el 'value' (el código) asociado a esa elección.
+4. Si el 'label' viene vacío (null), utiliza el 'value' tanto para mostrar al usuario como para enviar a la API."
+
+¿CÓMO SABER SI EL AGENTE TIENE LA INFORMACIÓN?
+-----------------------------------------------
+Sí la tiene. Al ejecutar 'Tech_ProcessRequiredFields', la IA guarda en su memoria de sesión el objeto completo 'requiredFields'. En Salesforce Agentforce, este objeto es "inspeccionable" por el LLM, lo que significa que la IA puede 'leer' la lista de opciones sin que tú tengas que programar nada adicional.
+
+ESTRATEGIA DE SEGURIDAD EN APEX:
+--------------------------------
+He reforzado el código de 'Tech_SubmitInsuredData' para que, si por alguna razón la IA olvida hacer la traducción y envía "Empleado", el código de Apex intente buscarlo una última vez en la lista de opciones antes de fallar. Esto es doble protección.
+
+======================================================
+ESTADO: Herramientas de mapeo listas y documentadas.

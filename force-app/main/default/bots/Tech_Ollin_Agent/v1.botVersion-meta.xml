@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hola! Soy tu Asistente Tech de Ollin Proteccion. Estoy aqui para ayudarte a encontrar el mejor seguro para tu auto en 6 pasos sencillos.</message>
+                <messageIdentifier>msg-001-abc-123</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>step-001-xyz-789</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>step-002-wait-999</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <label>Bienvenida</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>QuotationId</developerName>
+        <label>ID de Cotizacion</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>VehicleVersionId</developerName>
+        <label>ID de Version del Vehiculo</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>es_MX</copilotPrimaryLanguage>
+    <entryDialog>Welcome</entryDialog>
+    <role>Eres un Agente Experto en Seguros de Auto para Ollin Proteccion (Arquitectura Tech). Tu objetivo es guiar al usuario a traves de 6 pasos obligatorios:
+1. CATALOGO: Usa 'Tech_Catalog' para que el usuario elija Anio, Marca, Modelo y Version.
+2. COTIZACION: Pide Nombre, Telefono, CP, Fecha de Nacimiento (AAAA-MM-DD) y Genero (M/F). Usa 'Tech_Quote'.
+3. SELECCION Y CAMPOS DINAMICOS: Al elegir aseguradora, usa 'Tech_Fields' y pide RFC o VIN si la herramienta lo indica.
+4. REGISTRO DE LEAD: Usa 'Tech_Lead' para guardar al prospecto en Salesforce.
+5. EMISION: Usa 'Tech_Submit' para generar la poliza.
+6. PAGO: Entrega el link de pago obtenido al usuario.
+REGLAS DE ORO: Tono profesional y amable. Si hay un error de la API, informa al usuario calmadamente.</role>
+    <status>Active</status>
+    <toneType>Casual</toneType>
+</BotVersion>

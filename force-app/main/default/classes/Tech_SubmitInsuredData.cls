@@ -1,26 +1,28 @@
 /**
- * @description Acción Invocable para Agentforce: Envía los datos finales para la emisión de la póliza.
- * Paso 4 y 5 de 6 en el flujo de seguros.
+ * @description Acción Invocable mejorada y escalable para Agentforce.
  */
 public class Tech_SubmitInsuredData {
 
     public class PolicyInput {
-        @InvocableVariable(label='ID de Cotización' required=true)
+        @InvocableVariable(label='ID de Cotizacion' required=true)
         public String quotationId;
         
-        @InvocableVariable(label='RFC' description='Obligatorio para la mayoría de aseguradoras')
+        @InvocableVariable(label='RFC')
         public String rfc;
         
-        @InvocableVariable(label='Número de Serie (VIN)' description='17 caracteres')
+        @InvocableVariable(label='CURP')
+        public String curp;
+        
+        @InvocableVariable(label='Numero de Serie (VIN)')
         public String vin;
         
-        @InvocableVariable(label='Calle y Número')
+        @InvocableVariable(label='Calle y Numero')
         public String street;
         
-        @InvocableVariable(label='Ocupación')
+        @InvocableVariable(label='Ocupacion')
         public String occupation;
 
-        @InvocableVariable(label='Estado Civil' description='C, D, S, U, V')
+        @InvocableVariable(label='Estado Civil')
         public String maritalStatus;
         
         @InvocableVariable(label='Apellido Paterno' required=true)
@@ -31,47 +33,66 @@ public class Tech_SubmitInsuredData {
 
         @InvocableVariable(label='Nombres (Pila)' required=true)
         public String firstName;
+
+        @InvocableVariable(label='Telefono' required=true)
+        public String phone;
+
+        @InvocableVariable(label='Fecha de Nacimiento' required=true)
+        public String birthDate;
+
+        @InvocableVariable(label='Email')
+        public String email;
+
+        @InvocableVariable(label='Lista de Opciones Dinamicas' description='Pasa aqui la lista requiredFields obtenida en el paso anterior para cruce de codigos.')
+        public List<Tech_MueveteSeguroWrappers.RequiredField> allRequiredFields;
     }
 
     public class PolicyOutput {
-        @InvocableVariable(label='ID de Póliza')
+        @InvocableVariable(label='ID de Poliza')
         public String policyId;
-        
         @InvocableVariable(label='URL de Pago')
         public String paymentUrl;
-        
-        @InvocableVariable(label='Monto Total' description='Formato moneda MXN')
+        @InvocableVariable(label='Monto Total')
         public Decimal totalAmount;
-
         @InvocableVariable(label='Error')
         public String errorMessage;
     }
 
-    @InvocableMethod(label='Tech: Emitir Póliza y Pago' description='Envía los datos recolectados (RFC, VIN, etc.) para generar la póliza y el link de pago.')
+    @InvocableMethod(label='Tech: Emitir Poliza y Pago' description='Emite la poliza realizando un cruce dinamico de opciones para asegurar escalabilidad.')
     public static List<PolicyOutput> execute(List<PolicyInput> inputs) {
         List<PolicyOutput> outputs = new List<PolicyOutput>();
-        
         for (PolicyInput input : inputs) {
             PolicyOutput out = new PolicyOutput();
             try {
-                // Preparar el Mapa Dinámico para la API
+                // Extraer opciones de los campos requeridos
+                List<Tech_MueveteSeguroWrappers.Option> flatOptions = new List<Tech_MueveteSeguroWrappers.Option>();
+                if(input.allRequiredFields != null) {
+                    for(Tech_MueveteSeguroWrappers.RequiredField f : input.allRequiredFields) {
+                        if(f.options != null) flatOptions.addAll(f.options);
+                    }
+                }
+
                 Map<String, Object> data = new Map<String, Object>();
-                data.put('rfc', input.rfc);
-                data.put('vin', input.vin);
+                data.put('rfcKey', input.rfc);
+                data.put('curp', input.curp);
+                data.put('serialNumber', input.vin);
+                data.put('phone', input.phone);
+                data.put('birthdate', input.birthDate);
+                data.put('email', input.email);
                 data.put('street', input.street);
                 data.put('occupation', input.occupation);
                 data.put('maritalStatus', input.maritalStatus);
                 data.put('paternalSurname', input.paternalSurname);
                 data.put('maternalSurname', input.maternalSurname);
-                data.put('fullName', input.firstName); // La API lo pide como fullName pero solo con el nombre de pila.
+                data.put('fullName', input.firstName);
 
+                // Llamada al servicio con cruce dinámico
                 Tech_MueveteSeguroWrappers.PolicyResponse res = 
-                    Tech_MueveteSeguroPolicyService.submitInsuredData(input.quotationId, data);
+                    Tech_MueveteSeguroPolicyService.submitInsuredData(input.quotationId, data, flatOptions);
                 
                 out.policyId = res.policyId;
                 out.paymentUrl = res.paymentUrl;
                 out.totalAmount = res.amount;
-
             } catch (Exception e) {
                 out.errorMessage = e.getMessage();
             }

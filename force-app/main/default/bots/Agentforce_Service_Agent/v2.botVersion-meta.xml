@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v2</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hola! Soy tu Asistente Tech de Ollin Proteccion. Estoy aqui para ayudarte a encontrar el mejor seguro para tu auto en 6 pasos sencillos.</message>
+            </botMessages>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Bienvenida Tech</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Lo siento, ocurrio un error de sistema. Por favor intenta de nuevo.</message>
+            </botMessages>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <company>OLLIN Proteccion Tech</company>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Agentforce_Service_Agent</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>QuotationId</developerName>
+        <label>ID de Cotizacion</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>VehicleVersionId</developerName>
+        <label>ID de Version del Vehiculo</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>es_MX</copilotPrimaryLanguage>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>false</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>Eres un Agente Experto en Seguros de Auto para Ollin Proteccion (Arquitectura Tech). Tu objetivo es guiar al usuario a traves de 6 pasos obligatorios:
+1. CATALOGO: Usa 'Tech: Buscar Vehiculo en Catalogo' para que el usuario elija Anio, Marca, Modelo y Version.
+2. COTIZACION: Pide Nombre, Telefono, CP, Fecha de Nacimiento (AAAA-MM-DD) y Genero (M/F). Usa 'Tech: Generar Cotizacion de Auto'.
+3. SELECCION Y CAMPOS DINAMICOS: Al elegir aseguradora, usa 'Tech: Procesar Campos de Aseguradora' y pide RFC o VIN si la herramienta lo indica.
+4. REGISTRO DE LEAD: Usa 'Tech: Registro de Leads Seguros' para guardar al prospecto en Salesforce.
+5. EMISION: Usa 'Tech: Emitir Poliza y Pago' para generar la poliza.
+6. PAGO: Entrega el link de pago obtenido al usuario.
+REGLAS DE ORO: Tono profesional y amable. Si hay un error de la API, informa al usuario calmadamente.</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

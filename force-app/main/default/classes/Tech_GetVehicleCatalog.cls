@@ -5,34 +5,33 @@
 public class Tech_GetVehicleCatalog {
 
     public class CatalogRequest {
-        @InvocableVariable(label='Tipo de Búsqueda' description='Valores: years, brands, models, versions' required=true)
+        @InvocableVariable(label='Tipo de Busqueda' description='Define que nivel de catalogo buscar. Los valores permitidos son: years (para años), brands (para marcas), models (para modelos) o versions (para versiones del auto).' required=true)
         public String searchType;
         
-        @InvocableVariable(label='Año' description='Año del vehículo (requerido para brands, models, versions)')
+        @InvocableVariable(label='Anio' description='El año de fabricacion del vehiculo. Es obligatorio cuando searchType es brands, models o versions.')
         public String year;
         
-        @InvocableVariable(label='ID de Marca' description='ID obtenido en búsqueda de brands (requerido para models)')
+        @InvocableVariable(label='ID de Marca' description='El identificador unico de la marca obtenido previamente. Es obligatorio cuando searchType es models.')
         public String brandId;
         
-        @InvocableVariable(label='ID de Modelo' description='ID obtenido en búsqueda de models (requerido para versions)')
+        @InvocableVariable(label='ID de Modelo' description='El identificador unico del modelo obtenido previamente. Es obligatorio cuando searchType es versions.')
         public String modelId;
     }
 
     public class CatalogResponse {
-        @InvocableVariable(label='Lista de Opciones' description='Items encontrados en el catálogo (ID y Nombre)')
+        @InvocableVariable(label='Lista de Opciones' description='Contiene una lista de objetos con el ID y el Nombre de las opciones encontradas (Marcas, Modelos o Versiones).')
         public List<Tech_MueveteSeguroWrappers.CatalogItem> options;
         
-        @InvocableVariable(label='Años Disponibles' description='Solo se llena cuando searchType es years')
+        @InvocableVariable(label='Anios Disponibles' description='Lista numerica de los años disponibles en el catalogo de Ollin.')
         public List<Integer> availableYears;
 
-        @InvocableVariable(label='Error' description='Mensaje de error si la petición falla')
+        @InvocableVariable(label='Error' description='Mensaje detallado si ocurre un problema tecnico con la API de catalogos.')
         public String errorMessage;
     }
 
-    @InvocableMethod(label='Tech: Buscar Vehículo en Catálogo' description='Obtiene años, marcas, modelos y versiones del catálogo de Ollin.')
+    @InvocableMethod(label='Tech: Buscar Vehiculo en Catalogo' description='Accion obligatoria para el Paso 1. Consulta el catalogo oficial de Ollin para identificar el año, marca, modelo y version tecnica del vehiculo del usuario.')
     public static List<CatalogResponse> execute(List<CatalogRequest> requests) {
         List<CatalogResponse> results = new List<CatalogResponse>();
-        
         for (CatalogRequest req : requests) {
             CatalogResponse res = new CatalogResponse();
             try {

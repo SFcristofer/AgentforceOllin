@@ -1,0 +1,2 @@
+﻿<?xml version='1.0' encoding='UTF-8'?><GenAiFunction xmlns='http://soap.sforce.com/2006/04/metadata'><description>PASO 3 DE 6 - CAMPOS DINAMICOS. Identifica campos extras (RFC, VIN) por aseguradora.</description><invocationTarget>Tech_ProcessRequiredFields</invocationTarget><invocationTargetType>apex</invocationTargetType><isConfirmationRequired>false</isConfirmationRequired><masterLabel>Tech: Campos Aseguradora</masterLabel></GenAiFunction>
+

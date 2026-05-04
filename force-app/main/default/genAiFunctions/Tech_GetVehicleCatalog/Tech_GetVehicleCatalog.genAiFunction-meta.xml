@@ -1,0 +1,2 @@
+﻿<?xml version='1.0' encoding='UTF-8'?><GenAiFunction xmlns='http://soap.sforce.com/2006/04/metadata'><description>PASO 1 DE 6 - BUSCAR VEHICULO. Usa esta accion cuando el cliente quiera cotizar un seguro de auto.</description><invocationTarget>Tech_GetVehicleCatalog</invocationTarget><invocationTargetType>apex</invocationTargetType><isConfirmationRequired>false</isConfirmationRequired><masterLabel>Tech: Buscar Vehiculo</masterLabel></GenAiFunction>
+

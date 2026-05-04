@@ -1,0 +1,149 @@
+================================================================================
+DOCUMENTACIÓN COMPLETA DE LA API PARA AGENTFORCE - OLLIN PROTECCIÓN
+================================================================================
+Entorno: DESARROLLO (dev)
+Base URL: https://api-dev-comparator.ollinproteccion.com.mx
+Named Credential: MueveteSeguro_Bot_API
+External Service: OllinBotV2
+================================================================================
+
+Este documento detalla TODA la información que la API proporciona y cómo Agentforce 
+puede utilizarla para ofrecer una experiencia de usuario fluida y profesional.
+
+--------------------------------------------------------------------------------
+1. FLUJO DE CATÁLOGO (Identificación del Vehículo)
+--------------------------------------------------------------------------------
+Información que regresa la API:
+- Lista de Años: [2024, 2023, 2022...]
+- Lista de Marcas: [ { "id": "1", "name": "Toyota" }, { "id": "2", "name": "Nissan" } ]
+- Lista de Modelos: [ { "id": "10", "name": "Camry" }, { "id": "11", "name": "Corolla" } ]
+- Lista de Versiones: [ { "id": "UUID-123", "name": "LE 2.5L 4PTAS" } ]
+
+¿Qué puede hacer Agentforce?
+- Navegación Guiada: Presentar botones o menús al usuario para que seleccione su auto.
+- Validación: Asegurarse de que el usuario no elija un modelo que no existe para ese año.
+- Persistencia: Guardar el 'vehicleVersionId' para el siguiente paso.
+
+--------------------------------------------------------------------------------
+2. COTIZACIÓN Y COMPARATIVA
+--------------------------------------------------------------------------------
+Información que regresa la API (por cada aseguradora):
+- quotationId: ID único de la cotización.
+- expiresAt: FECHA DE EXPIRACIÓN (ISO 8601). ¡Úsala para crear urgencia!
+- results (Lista de aseguradoras):
+    - insurer: Nombre de la aseguradora.
+    - packages:
+        - planId: ID interno del plan.
+        - planName: Nombre comercial (ej. "Cobertura Amplia").
+        - totalAmount: Costo total anual (MXN).
+        - coverages: Lista de qué incluye (Nombre, Límite, Deducible). ¡Úsala para comparar por qué una es más cara que otra!
+        - installmentOptions: Meses sin intereses y monto exacto por mes.
+
+¿Qué puede hacer Agentforce?
+- Venta Consultiva: "GNP es $500 más caro, pero su deducible es 5% menor que HDI".
+- Urgencia: "Este precio solo es válido hasta [expiresAt]. ¿Lo aseguramos de una vez?".
+- Transparencia: Mostrar el costo exacto por mes para facilitar la decisión.
+
+--------------------------------------------------------------------------------
+3. MODOS DE RESPUESTA (Síncrono vs Streaming)
+--------------------------------------------------------------------------------
+La API ofrece dos formas de recibir los precios:
+- Síncrono: El bot espera ~15 segundos y entrega todo junto.
+- Streaming (SSE): Endpoint '/bot/quotation/:id/stream'. Permite mostrar resultados conforme llegan, reduciendo la sensación de espera del usuario.
+
+--------------------------------------------------------------------------------
+4. SELECCIÓN DE PLAN Y CAMPOS DINÁMICOS
+--------------------------------------------------------------------------------
+Información que regresa la API al elegir una aseguradora:
+- requiredFields (Lista dinámica):
+    - field: Nombre técnico (ej. "rfcKey").
+    - type: Tipo de dato ("string", "date", "select").
+    - required: Booleano (true/false).
+    - description: Texto amigable para el usuario (ej. "RFC con homoclave").
+    - options (Solo para tipo 'select'): Lista de valores y etiquetas (ej. Casado, Soltero).
+
+¿Qué puede hacer Agentforce?
+- Formularios Inteligentes: En lugar de tener un flujo rígido, el bot lee esta lista y pregunta solo lo que la aseguradora necesita.
+- Menús Dinámicos: Si el campo es 'select', el bot muestra las opciones (ej. Ocupación) directamente de la API.
+
+--------------------------------------------------------------------------------
+4. EMISIÓN, PAGO Y ESTADO FINAL
+--------------------------------------------------------------------------------
+Información que regresa la API al enviar los datos del asegurado:
+- policyId: ID de la póliza creada.
+- status: Estado actual ("pending_payment", "approved", "refused").
+- paymentUrl: El enlace de pago para el cliente.
+- paymentToken: Token de seguridad del link.
+- policyNumber: El número final de la póliza (solo si está aprobada).
+- downloadUrl: Link para bajar el PDF de la póliza.
+
+¿Qué puede hacer Agentforce?
+- Cierre de Venta: Entregar el link de pago y desear un buen día.
+- Monitoreo: Consultar el estado cada cierto tiempo para avisar al usuario: "¡Tu pago ya se reflejó! Aquí tienes tu póliza".
+- Recuperación: Si el estado es "refused", preguntar al usuario si quiere intentar con otra aseguradora.
+
+--------------------------------------------------------------------------------
+5. ASEGURADORAS MANEJADAS Y REGLAS ESPECÍFICAS
+--------------------------------------------------------------------------------
+La API integra actualmente 5 aseguradoras principales. Agentforce debe conocer sus 
+particularidades para guiar mejor al usuario:
+
+LISTA OFICIAL:
+1. GNP SEGUROS
+2. HDI SEGUROS
+3. ANA SEGUROS
+4. QUALITAS
+5. CHUBB
+
+REGLAS DE NEGOCIO POR MARCA:
+- QUALITAS: La API solo devolverá la opción de pago 'Contado'. El Agente debe informar 
+  que el pago a meses se puede seleccionar directamente al abrir el enlace de pago.
+- ANA SEGUROS: Es la aseguradora que más campos requiere. Al elegirla, Agentforce 
+  debe estar preparado para solicitar VIN, Ocupación y Dirección completa.
+- GNP y CHUBB: Proporcionan un desglose detallado de impuestos (IVA y prima neta).
+- CORREO ELECTRÓNICO: Es OBLIGATORIO capturarlo para ANA, GNP, Qualitas y Chubb 
+  antes de intentar generar la póliza.
+
+--------------------------------------------------------------------------------
+7. OTROS RAMOS DE SEGURO (VIDA, GMM, FIANZAS)
+--------------------------------------------------------------------------------
+Aunque el flujo principal es Auto, la API y Agentforce están preparados para:
+
+RAMOS SOPORTADOS:
+- VIDA / PPR: Requiere campos como 'smoker' (Booleano) y 'retirementAge'.
+- GMM (Gastos Médicos Mayores): Requiere 'hospitalLevel' y 'deductibleAmount'.
+- FIANZAS: Uso administrativo para contratos y garantías.
+
+¿Qué puede hacer Agentforce en estos ramos?
+- Calificación de Leads: Capturar el interés del usuario y guardarlo en el flujo 
+  'Tech_Agentforce_Registro_de_Leads_Seguros'.
+- Cotización Multiramo: La API permite enviar un 'productType' diferente en el 
+  mismo endpoint de cotización para obtener precios de vida o salud.
+
+--------------------------------------------------------------------------------
+9. ESTRATEGIA DE CALIFICACIÓN DE LEADS (RATING & SCORING)
+--------------------------------------------------------------------------------
+Agentforce utiliza los datos de la API para calificar automáticamente a los 
+prospectos en Salesforce, permitiendo al equipo comercial priorizar sus esfuerzos:
+
+CRITERIOS DE CALIFICACIÓN:
+- RATING "HOT": Se asigna cuando el usuario ha recibido un 'paymentUrl'. Indica 
+  que el cliente tiene una intención de compra inmediata.
+- SCORE DE VALOR: Comparación del 'totalAmount' contra el presupuesto del cliente. 
+  Un match cercano incrementa el puntaje del lead.
+- NIVEL DE COMPLETITUD: Si el usuario completó todos los 'requiredFields' de la 
+  API, el Lead se marca como "Listo para Emisión".
+- ALERTA DE RIESGO: Si la API regresa error 422 (Vehículo no aceptado), el Lead 
+  se etiqueta como "Caso Especial" para revisión humana inmediata.
+
+--------------------------------------------------------------------------------
+10. RESUMEN DE DATOS CLAVE PARA EL DESARROLLADOR
+--------------------------------------------------------------------------------
+- Moneda: Siempre MXN.
+- Autenticación: Requiere X-API-Key en el header.
+- Error Handling: La API regresa códigos 400 (datos mal), 401 (llave mal), 422 (auto no asegurable).
+- Modo Pruebas: Usar RFC "XAXX010101000" y VIN de 17 caracteres.
+
+================================================================================
+FIN DEL DOCUMENTO
+================================================================================

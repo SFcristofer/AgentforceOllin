@@ -1,0 +1,31 @@
+GUÍA DE MEJORA DE EXPERIENCIA (UX): OLLIN AGENTFORCE
+======================================================
+
+1. PROBLEMA DETECTADO
+---------------------
+El agente solicita demasiada información (ej. 11 campos) en un solo mensaje, lo que genera fatiga en el usuario y posibles errores en datos críticos como el VIN o RFC.
+
+2. SOLUCIÓN APLICADA (APEX)
+---------------------------
+Se actualizó la acción 'Tech_ProcessRequiredFields' para que el campo 'fieldSummary' ahora entregue una guía estructurada por bloques (Personales, Auto, Adicionales) en lugar de una lista plana.
+
+3. ACCIÓN MANUAL REQUERIDA (TOPIC INSTRUCTIONS) - COPIAR Y PEGAR:
+-----------------------------------------------------------------
+Ve a Topics > Cotizacion_y_Venta_Seguros_Auto > Instructions y añade/reemplaza estas reglas:
+
+"REGLAS DE INTERACCIÓN HUMANA:
+* MEMORIA DE DATOS: No solicites datos que el usuario ya proporcionó (como Nombre Completo o Teléfono). Utiliza el nombre dado en el Paso 2 para llenar 'firstName', 'paternalSurname', etc., pidiendo solo confirmación si es necesario.
+* CAPTURA FRACCIONADA: Si el resumen de campos ('fieldSummary') indica múltiples bloques, solicita la información en grupos de máximo 3 preguntas a la vez. 
+  - Bloque 1: Datos Personales (RFC, Ocupación, Apellidos faltantes).
+  - Bloque 2: Datos del Vehículo (VIN). Explica que son 17 caracteres y están en la tarjeta de circulación.
+  - Bloque 3: Datos de Contacto y Ubicación (Email, Calle).
+* VALIDACIÓN PROACTIVA: Si el usuario proporciona un VIN con menos o más de 17 caracteres, indícale el error amablemente y solicita corregirlo antes de intentar la emisión."
+
+4. RESULTADO ESPERADO
+---------------------
+- Conversación fluida: El bot se siente más como un asistente y menos como un formulario.
+- Precisión: Al pedir el VIN por separado, el usuario tiene más probabilidad de escribirlo bien.
+- Profesionalismo: El bot demuestra "memoria" al no preguntar dos veces el nombre.
+
+======================================================
+ESTADO: Lógica de bloques desplegada en la org.

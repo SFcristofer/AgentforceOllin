@@ -1,0 +1,38 @@
+GUÍA DE PRUEBAS DE INTELIGENCIA: OLLIN AGENTFORCE
+======================================================
+
+Para verificar que la IA distingue los datos y tiene memoria, realiza estas 3 pruebas en el panel de "Preview":
+
+ESCENARIO 1: PRUEBA DE MEMORIA (EVITAR REDUNDANCIA)
+---------------------------------------------------
+- Inicio: "Hola, soy Cristofer Contreras y quiero cotizar mi auto 2019."
+- Proceso: Sigue el flujo hasta que elijas la aseguradora ANA.
+- Qué observar: Cuando el bot pida los datos adicionales de ANA, NO debería preguntarte tu "Nombre de pila" ni tu "Apellido Paterno", porque ya se los diste al inicio. Debería saltar directamente al RFC, Apellido Materno y VIN.
+
+ESCENARIO 2: DIFERENCIACIÓN POR ASEGURADORA (DINAMISMO)
+-------------------------------------------------------
+- Prueba A (Caso Simple): Elige HDI.
+  * Observa cuántos campos te pide. HDI suele pedir solo el RFC.
+- Prueba B (Caso Complejo): Elige ANA.
+  * Observa cómo cambia la lista. ANA te pedirá RFC, VIN, Ocupación y Dirección.
+- Conclusión: Si el bot cambia las preguntas según la aseguradora, la acción 'Tech_ProcessRequiredFields' está funcionando al 100%.
+
+ESCENARIO 3: VALIDACIÓN DE FORMATOS (NORMALIZACIÓN)
+---------------------------------------------------
+- Prueba de Teléfono: Cuando te pida el teléfono, dalo sin el +52 (ej. "7711154775").
+- Prueba de Género: Escribe "Soy hombre" o "Soy mujer" en lugar de M o F.
+- Qué observar: El bot debe aceptar estos datos y, tras bambalinas, nuestras clases Tech_ los convertirán al formato correcto (+527711154775 y 'M'/'F') para la API.
+
+ESCENARIO 4: SEGURIDAD DE DATOS (VIN)
+-------------------------------------
+- Prueba: Cuando pida el VIN, escribe solo 5 letras.
+- Qué observar: El bot, basado en nuestras nuevas instrucciones, debería decirte: "El VIN debe tener 17 caracteres, por favor verifícalo en tu tarjeta de circulación."
+
+CÓMO INICIAR EL CHAT (PROMPTS RECOMENDADOS):
+--------------------------------------------
+1. "Quiero cotizar un seguro."
+2. "Busco proteger mi coche 2022."
+3. "Hola, ayúdame con un seguro para mi Nissan."
+
+======================================================
+ESTADO: Listo para validación de Usuario (UAT).

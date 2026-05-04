@@ -1,6 +1,5 @@
 /**
- * @description Clase base para manejar la comunicación HTTP con la API de Ollin.
- * Centraliza headers, timeouts y manejo de errores para escalabilidad.
+ * @description Clase base profesional con manejo robusto de errores de API.
  */
 public virtual class Tech_MueveteSeguroBase {
     
@@ -8,9 +7,6 @@ public virtual class Tech_MueveteSeguroBase {
     
     public class ServiceException extends Exception {}
 
-    /**
-     * @description Ejecuta una petición HTTP genérica con manejo de errores básico.
-     */
     public static HttpResponse sendRequest(String method, String path, String body) {
         HttpRequest req = new HttpRequest();
         req.setEndpoint(NAMED_CREDENTIAL + path);
@@ -18,20 +14,23 @@ public virtual class Tech_MueveteSeguroBase {
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('Accept', 'application/json');
         
-        if (String.isNotBlank(body)) {
-            req.setBody(body);
-        }
-        
+        if (String.isNotBlank(body)) req.setBody(body);
         req.setTimeout(30000); 
         
         HttpResponse res = new Http().send(req);
         
-        if (res.getStatusCode() == 429) {
-            throw new ServiceException('Límite de peticiones excedido. Por favor intenta en un minuto.');
-        }
-        
-        if (res.getStatusCode() >= 500) {
-            throw new ServiceException('Error en el servidor de Ollin. Código: ' + res.getStatusCode());
+        // MANEJO ROBUSTO DE ERRORES:
+        if (res.getStatusCode() >= 400) {
+            String errorMsg = 'Error de la API (Status ' + res.getStatusCode() + ')';
+            try {
+                // Intentamos extraer el mensaje de error real de la API si viene en el JSON
+                Map<String, Object> errorJson = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+                if (errorJson.containsKey('message')) errorMsg = (String) errorJson.get('message');
+                else if (errorJson.containsKey('error')) errorMsg = (String) errorJson.get('error');
+            } catch (Exception e) {
+                errorMsg += ': ' + res.getBody();
+            }
+            throw new ServiceException(errorMsg);
         }
         
         return res;
