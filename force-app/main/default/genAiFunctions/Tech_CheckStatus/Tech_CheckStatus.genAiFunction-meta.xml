@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permite al Agente verificar si el pago de la póliza ya fue procesado y obtener el PDF final. Úsala proactivamente tras entregar el link de pago o cuando el usuario confirme el pago.</description>
+    <invocationTarget>Tech_CheckPaymentStatus</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <label>Tech: Verificar Pago y Obtener Póliza</label>
+    <masterLabel>Tech_CheckPaymentStatus</masterLabel>
+</GenAiFunction>

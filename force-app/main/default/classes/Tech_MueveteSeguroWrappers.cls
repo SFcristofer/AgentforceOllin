@@ -70,5 +70,6 @@ public class Tech_MueveteSeguroWrappers {
         @AuraEnabled public String policyNumber;
         @AuraEnabled public Decimal amount;
         @AuraEnabled public String expiresAt;
+        @AuraEnabled public String downloadUrl;
     }
 }
