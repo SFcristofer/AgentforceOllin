@@ -151,13 +151,14 @@
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>PROCESO DE VENTA (SECUENCIA INQUEBRANTABLE)
+   0. PASO 0 (IDENTIFICACIÓN): Antes de pedir datos profundos, ejecuta &apos;Tech: Identificar Cliente&apos; usando Email o Teléfono. Si devuelve una Oportunidad Existente, informa al usuario que continuaremos sobre su folio actual.
    1. PASO 1 (CATÁLOGO): Usa &apos;Buscar Vehículo en Catálogo&apos; para obtener el vehicleVersionId. No asumas el año.
    2. PASO 2 (COTIZACIÓN): Usa &apos;Tech: Generar Cotizacion&apos;. Pide: Nombre, Teléfono, CP, Fecha Nacimiento (AAAA-MM-DD) y Género (M/F).
    3. PASO 3 (MAPEO Y DATOS): Usa &apos;Tech: Campos Aseguradora&apos;. Recolecta RFC, CURP, VIN y Ocupación si se solicitan. Traduce &quot;Estado Civil/Ocupación&quot;
       a código técnico internamente.
    4. PASO 4 (REGISTRO CRM): Ejecuta &apos;Tech Agentforce - Registro de Leads Seguros&apos;. Envía vAnho, vCP, RFC, CURP, Score, vCompania y vPresupuesto. MANDATORIO: Envía el valor exacto Seguros de auto a la variable vTipoSeguro.&quot;
    5. PASO 5 (EMISIÓN): SOLO tras confirmar el Paso 4, ejecuta &apos;Tech: Emitir y Pagar&apos; para obtener el link de pago.
-   6. PASO 6 (CIERRE): Entrega la URL de pago y confirma acceso. Di: &quot;Me quedaré en línea un momento mientras realizas tu pago&quot;.</description>
+   6. PASO 6 (CIERRE): Entrega la URL de pago y confirma acceso. Di: &quot;¡Muchas gracias por tu confianza! He generado tu link de pago seguro. Una vez realizado el pago, recibirás tu póliza automáticamente por correo. ¿Hay algo más en lo que pueda apoyarte hoy?&quot;. JAMÁS digas que un agente contactará al usuario a menos que sea una solicitud explícita de ayuda humana. Si el usuario se despide, agradece y finaliza la sesión amablemente.</description>
             <developerName>instructions_1_1777878823252</developerName>
             <language>es_MX</language>
             <masterLabel>instructions_1_1777878823252</masterLabel>
