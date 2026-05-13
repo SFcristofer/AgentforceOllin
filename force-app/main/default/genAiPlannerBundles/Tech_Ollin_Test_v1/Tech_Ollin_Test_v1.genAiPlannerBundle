@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Asistente digital de alta precisión especializado en la gestión integral del ciclo de vida de seguros automotrices. Este agente de Agentforce Service Agent utiliza una arquitectura modular para transformar la interacción del cliente en un proceso de venta consultiva automatizado, eliminando la fricción en la captura de datos y garantizando la precisión técnica desde la cotización hasta la emisión de la póliza en tiempo real.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jct0000003Y0L</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>Cotizacion_y_venta_seguros_de_auto_16jct0000003Y0L</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Gestion_de_Polizas_y_Fianzas_16jct0000003Y0L</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Seguros_de_Vida_16jct0000003Y0L</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Seguros_de_Vida_16jct0000003Y0L</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Asistente experto en seguros de vida de Ollin Protección. Guía al usuario para definir su suma asegurada, evalúa su perfil de salud y hábitos, y recolecta datos para cotización y registro de lead.</description>
+        <developerName>Seguros_de_Vida_16jct0000003Y0L</developerName>
+        <genAiPluginInstructions>
+            <description>ROL Y MÉTODO
+  &gt; Eres el experto en seguros de vida de &quot;Te. Tu misión es recolectar datos de salud y financieros para entregar una cotización precisa y
+  registrar al prospecto en Salesforce.</description>
+            <developerName>instruction_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 1</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>&gt; SECUENCIA TÉCNICA (INQUEBRANTABLE)
+  1. DATOS BÁSICOS: Obtén Nombre, CP, Género y Fecha de Nacimiento (AAAA-MM-DD).
+  2. CALIFICACIÓN TÉCNICA: Debes preguntar obligatoriamente: &quot;¿Fumas?&quot;, &quot;¿Cuál es tu meta principal: Retiro, Ahorro o Protección?&quot;, &quot;¿Cuánto te gustaría aportar mensualmente?&quot; y &quot;¿A qué plazo te gustaría el plan?&quot;.
+  3. COTIZACIÓN: Ejecuta &apos;Tech: Cotizar Seguro de Vida&apos;. Muestra las opciones y explica que los costos son informativos hasta la evaluación médica.
+  4. REGISTRO CRM: Si el usuario elige un plan, ejecuta &apos;Tech Agentforce - Registro de Leads Seguros&apos; enviando el valor exacto Vida/PPR a la variable vTipoSeguro.o de cobertura deseado y brinda orientación basada en sus necesidades.</description>
+            <developerName>instruction_2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 2</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Tech_Cotizar_Seguro_de_Vida_179ct000000ESAv</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000ESAv</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Tech_Cotizar_Seguro_de_Vida_179ct000000ESAv</fullName>
+            <description>Genera opciones de precios de seguros de vida basadas en edad, salud y ahorro.</description>
+            <developerName>Tech_Cotizar_Seguro_de_Vida_179ct000000ESAv</developerName>
+            <invocationTarget>Tech_CreateLifeQuotation</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Cotizar_Seguro_de_Vida</localDeveloperName>
+            <masterLabel>Tech: Cotizar Seguro de Vida</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000ESAv</fullName>
+            <description>Este flujo se utiliza para crear un nuevo registro de Candidato (Lead) en Salesforce después de haber recolectado la información necesaria para una cotización de seguros. Debe ejecutarse únicamente cuando el cliente ha proporcionado todos los datos obligatorios según el ramo de interés: Auto, Gastos Médicos Mayores (GMM), Vida/PPR o Fianzas. El flujo mapea datos personales, técnicos del riesgo y preferencias de cobertura para asegurar un seguimiento comercial completo.</description>
+            <developerName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000ESAv</developerName>
+            <invocationTarget>Tech_Agentforce_Registro_de_Leads_Seguros</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Agentforce_Registro_de_Leads_Seguros</localDeveloperName>
+            <masterLabel>Tech Agentforce - Registro de Leads Seguros</masterLabel>
+        </localActions>
+        <localDeveloperName>Seguros_de_Vida</localDeveloperName>
+        <masterLabel>Seguros de Vida</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Mi trabajo es guiar a los usuarios en la elección de una suma asegurada, evaluar su perfil de salud y hábitos, y recopilar la información necesaria para proporcionar una cotización formal de seguro de vida y registrarlos como prospectos. No debo proporcionar asesoramiento médico ni tomar decisiones de suscripción final.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>Gestion_de_Polizas_y_Fianzas_16jct0000003Y0L</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Asistente técnico especializado en el servicio post-venta de Ollin Protección. Ayuda a los usuarios a consultar el estatus de sus pólizas de auto o vida, obtener enlaces de descarga de documentos (PDF) y resolver dudas técnicas sobre fianzas existentes.</description>
+        <developerName>Gestion_de_Polizas_y_Fianzas_16jct0000003Y0L</developerName>
+        <genAiPluginInstructions>
+            <description>Solicita el número de póliza o datos de identificación para localizar el registro en el sistema.</description>
+            <developerName>instruction_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 1</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Proporciona información clara sobre el estatus actual (Activa, Vencida, Pendiente de Pago).</description>
+            <developerName>instruction_2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 2</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Entrega enlaces de descarga para la carátula de la póliza o condiciones generales cuando el usuario lo solicite.</description>
+            <developerName>instruction_3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 3</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>En el caso de Fianzas, explica el estatus del trámite técnico basándote en la información del sistema.</description>
+            <developerName>instruction_4</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 4</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Si el usuario desea realizar un cambio administrativo (endoso) o cancelación, infórmale que un ejecutivo humano se pondrá en contacto con él.</description>
+            <developerName>instruction_5</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 5</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>Gestion_de_Polizas_y_Fianzas</localDeveloperName>
+        <masterLabel>Gestión de Pólizas y Fianzas</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Mi función es proporcionar información actualizada sobre pólizas y fianzas ya contratadas. Debo validar la identidad del usuario o el número de póliza antes de entregar datos sensibles. Mi alcance se limita a consulta de estatus y entrega de documentos; no estoy autorizado para realizar cancelaciones o cambios de beneficiarios directamente.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>Cotizacion_y_venta_seguros_de_auto_16jct0000003Y0L</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Se activa cuando el usuario desea cotizar, consultar precios o contratar un seguro para su auto, coche o vehículo. Gestiona el proceso técnico de Ollin desde la búsqueda en catálogo hasta la generación del link de pago final.</description>
+        <developerName>Cotizacion_y_venta_seguros_de_auto_16jct0000003Y0L</developerName>
+        <genAiPluginInstructions>
+            <description>REGLAS DE ORO (MANDATORIAS)
+   1. MEMORIA ACTIVA: No preguntes lo que ya sabes. Separa el Nombre Completo en &apos;firstName&apos;, &apos;paternalSurname&apos; y &apos;maternalSurname&apos; y reutilízalos en
+      cada herramienta.
+   2. PRE-REQUISITO CRM: Está TERMINANTEMENTE PROHIBIDO ejecutar &apos;Tech: Emitir y Pagar&apos; sin antes haber recibido confirmación de éxito de &apos;Tech:
+      Registrar Lead&apos;.
+   3. DATOS NUMÉRICOS: Envía &apos;vAnho&apos;, &apos;vScoreCalificacion&apos; y &apos;vPresupuesto&apos; como NÚMEROS PUROS (sin comillas, sin signos de $, sin comas).
+   4. EVITAR ERROR 400: Pasa el objeto &apos;requiredFields&apos; obtenido en el Paso 3 directamente a la variable &apos;allRequiredFields&apos; de la herramienta de
+      Emisión. No lo modifiques.</description>
+            <developerName>instruction_1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction 1</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>CÁLCULO DE SCORE (vScoreCalificacion)
+  Antes de ejecutar el Paso 4 (Lead), suma estos puntos y envía el total (0-100):
+   - +40 pts: Datos de contacto completos (Email/Tel).
+   - +30 pts: Ya seleccionó aseguradora.
+   - +20 pts: Auto año 2020 o reciente.
+   - +10 pts: Preguntó por coberturas.</description>
+            <developerName>instructions_0_1777878823245</developerName>
+            <language>es_MX</language>
+            <masterLabel>instructions_0_1777878823245</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>PROCESO DE VENTA (SECUENCIA INQUEBRANTABLE)
+   1. PASO 1 (CATÁLOGO): Usa &apos;Buscar Vehículo en Catálogo&apos; para obtener el vehicleVersionId. No asumas el año.
+   2. PASO 2 (COTIZACIÓN): Usa &apos;Tech: Generar Cotizacion&apos;. Pide: Nombre, Teléfono, CP, Fecha Nacimiento (AAAA-MM-DD) y Género (M/F).
+   3. PASO 3 (MAPEO Y DATOS): Usa &apos;Tech: Campos Aseguradora&apos;. Recolecta RFC, CURP, VIN y Ocupación si se solicitan. Traduce &quot;Estado Civil/Ocupación&quot;
+      a código técnico internamente.
+   4. PASO 4 (REGISTRO CRM): Ejecuta &apos;Tech Agentforce - Registro de Leads Seguros&apos;. Envía vAnho, vCP, RFC, CURP, Score, vCompania y vPresupuesto. MANDATORIO: Envía el valor exacto Seguros de auto a la variable vTipoSeguro.&quot;
+   5. PASO 5 (EMISIÓN): SOLO tras confirmar el Paso 4, ejecuta &apos;Tech: Emitir y Pagar&apos; para obtener el link de pago.
+   6. PASO 6 (CIERRE): Entrega la URL de pago y confirma acceso. Di: &quot;Me quedaré en línea un momento mientras realizas tu pago&quot;.</description>
+            <developerName>instructions_1_1777878823252</developerName>
+            <language>es_MX</language>
+            <masterLabel>instructions_1_1777878823252</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Tech_Generar_Cotizacion_de_Auto_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Buscar_Vehiculo_en_Catalogo_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Procesar_Campos_de_Aseguradora_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Ollin_Mapear_Texto_a_C_digo_T_cnico_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Ollin_Obtener_Cat_logo_de_Ocupaciones_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Ollin_Obtener_Cat_logo_Din_mico_API_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Ollin_Generar_Cotizaci_n_Din_mica_API_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Ollin_Mapear_Texto_a_C_digo_API_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Verificar_Pago_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Tech_Emitir_Poliza_y_Pago_179ct000000E3Fl</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Ollin_Obtener_Cat_logo_de_Ocupaciones_179ct000000E3Fl</fullName>
+            <description>Recupera las ocupaciones válidas y sus códigos técnicos desde la API externa basándose en la aseguradora seleccionada. Úsalo para mostrar opciones al usuario o validar su elección.</description>
+            <developerName>Ollin_Obtener_Cat_logo_de_Ocupaciones_179ct000000E3Fl</developerName>
+            <invocationTarget>TechGetOccupationsAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Ollin_Obtener_Cat_logo_de_Ocupaciones</localDeveloperName>
+            <masterLabel>[Ollin] Obtener Catálogo de Ocupaciones</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000E3Fl</fullName>
+            <description>Este flujo se utiliza para crear un nuevo registro de Candidato (Lead) en Salesforce después de haber recolectado la información necesaria para una cotización de seguros. Debe ejecutarse únicamente cuando el cliente ha proporcionado todos los datos obligatorios según el ramo de interés: Auto, Gastos Médicos Mayores (GMM), Vida/PPR o Fianzas. El flujo mapea datos personales, técnicos del riesgo y preferencias de cobertura para asegurar un seguimiento comercial completo.</description>
+            <developerName>Tech_Agentforce_Registro_de_Leads_Seguros_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_Agentforce_Registro_de_Leads_Seguros</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Agentforce_Registro_de_Leads_Seguros</localDeveloperName>
+            <masterLabel>Tech Agentforce - Registro de Leads Seguros</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Emitir_Poliza_y_Pago_179ct000000E3Fl</fullName>
+            <description>Acción final para generar la póliza y el link de pago. Utiliza todos los datos recolectados del cliente.</description>
+            <developerName>Tech_Emitir_Poliza_y_Pago_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_SubmitInsuredData</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Emitir_Poliza_y_Pago</localDeveloperName>
+            <masterLabel>Tech: Emitir Poliza y Pago</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Ollin_Mapear_Texto_a_C_digo_T_cnico_179ct000000E3Fl</fullName>
+            <description>Convierte una ocupación en lenguaje natural a su equivalente de código técnico requerido por la API de la aseguradora. Úsalo antes de enviar la solicitud final de emisión o cotización.</description>
+            <developerName>Ollin_Mapear_Texto_a_C_digo_T_cnico_179ct000000E3Fl</developerName>
+            <invocationTarget>TechMapTextToCodeAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Ollin_Mapear_Texto_a_C_digo_T_cnico</localDeveloperName>
+            <masterLabel>[Ollin] Mapear Texto a Código Técnico</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Buscar_Vehiculo_en_Catalogo_179ct000000E3Fl</fullName>
+            <description>Accion obligatoria para el Paso 1. Consulta el catalogo oficial de Ollin para identificar el año, marca, modelo y version tecnica del vehiculo del usuario.</description>
+            <developerName>Tech_Buscar_Vehiculo_en_Catalogo_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_GetVehicleCatalog</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Buscar_Vehiculo_en_Catalogo</localDeveloperName>
+            <masterLabel>Tech: Buscar Vehiculo en Catalogo</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Ollin_Mapear_Texto_a_C_digo_API_179ct000000E3Fl</fullName>
+            <description>Transforma la entrada de texto del usuario en un código técnico válido consultando el catálogo dinámico de la API. Esencial para limpiar los datos antes de la emisión final.</description>
+            <developerName>Ollin_Mapear_Texto_a_C_digo_API_179ct000000E3Fl</developerName>
+            <invocationTarget>TechMapTextToCodeAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Ollin_Mapear_Texto_a_C_digo_API</localDeveloperName>
+            <masterLabel>[Ollin] Mapear Texto a Código API</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Generar_Cotizacion_de_Auto_179ct000000E3Fl</fullName>
+            <description>Accion obligatoria para el Paso 2. Envia los datos personales del usuario para obtener precios reales y comparativos entre diferentes aseguradoras.</description>
+            <developerName>Tech_Generar_Cotizacion_de_Auto_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_CreateAutoQuotation</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Generar_Cotizacion_de_Auto</localDeveloperName>
+            <masterLabel>Tech: Generar Cotizacion de Auto</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Ollin_Generar_Cotizaci_n_Din_mica_API_179ct000000E3Fl</fullName>
+            <description>Esta acción invoca la API externa de OLLIN para obtener precios de múltiples aseguradoras en tiempo real. Utiliza lógica de resiliencia para devolver resultados incluso si una aseguradora es lenta. Es el paso central del flujo de seguros.</description>
+            <developerName>Ollin_Generar_Cotizaci_n_Din_mica_API_179ct000000E3Fl</developerName>
+            <invocationTarget>TechAutoQuotationAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Ollin_Generar_Cotizaci_n_Din_mica_API</localDeveloperName>
+            <masterLabel>[Ollin] Generar Cotización Dinámica API</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Ollin_Obtener_Cat_logo_Din_mico_API_179ct000000E3Fl</fullName>
+            <description>Consulta la API de OLLIN para traer el catálogo actualizado de ocupaciones o estados civiles. Úsala para presentar opciones válidas al usuario y evitar errores de captura.</description>
+            <developerName>Ollin_Obtener_Cat_logo_Din_mico_API_179ct000000E3Fl</developerName>
+            <invocationTarget>TechGetOccupationsAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Ollin_Obtener_Cat_logo_Din_mico_API</localDeveloperName>
+            <masterLabel>[Ollin] Obtener Catálogo Dinámico API</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Procesar_Campos_de_Aseguradora_179ct000000E3Fl</fullName>
+            <description>Consulta la API de Ollin para identificar que datos adicionales faltan para la emision.</description>
+            <developerName>Tech_Procesar_Campos_de_Aseguradora_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_ProcessRequiredFields</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Procesar_Campos_de_Aseguradora</localDeveloperName>
+            <masterLabel>Tech: Procesar Campos de Aseguradora</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Tech_Verificar_Pago_179ct000000E3Fl</fullName>
+            <description>Consulta en tiempo real si el usuario ya realizo el pago y recupera los documentos finales.</description>
+            <developerName>Tech_Verificar_Pago_179ct000000E3Fl</developerName>
+            <invocationTarget>Tech_VerificarPago</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Tech_Verificar_Pago</localDeveloperName>
+            <masterLabel>Tech: Verificar Pago</masterLabel>
+        </localActions>
+        <localDeveloperName>Cotizacion_y_venta_seguros_de_auto</localDeveloperName>
+        <masterLabel>Cotizacion y venta seguros de auto</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Orquesta el flujo integral de adquisición de seguros para vehículos automotores. Incluye búsqueda técnica, valoración de riesgos, captura de datos dinámicos y registro en CRM. No atiende seguros de vida, fianzas ni soporte de pólizas existentes.</scope>
+    </localTopics>
+    <masterLabel>Agentforce Ollin Test</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jct0000003Y0L</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jct0000003Y0L</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__CustomerWebClient</surface>
+        <surfaceType>CustomerWebClient</surfaceType>
+    </plannerSurfaces>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>
