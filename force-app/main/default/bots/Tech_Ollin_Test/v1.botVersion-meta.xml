@@ -34,6 +34,7 @@
         <visibility>Internal</visibility>
     </conversationVariables>
     <copilotPrimaryLanguage>es_MX</copilotPrimaryLanguage>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
     <entryDialog>Welcome</entryDialog>
     <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
     <intentV3Enabled>false</intentV3Enabled>
