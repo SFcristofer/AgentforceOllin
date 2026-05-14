@@ -159,7 +159,7 @@ public with sharing class Tech_OpportunityManager {
                 opp.Tipo_Originador__c = String.isNotBlank(req.tipoOriginador) ? req.tipoOriginador : 'Digital';
                 
                 // Relaciones
-                opp.Producto__c = req.productId;
+                opp.Producto__c = (req.productId != null) ? req.productId : mapProduct(req.ramo, req.subproducto);
                 opp.Institucion__c = req.institucionId;
                 opp.Vendedor_A__c = (req.vendedorId != null) ? req.vendedorId : 'a0Qct00000Fj2UrEAJ';
                 opp.Poliza_Renovar__c = req.polizaRenovarId;
@@ -181,7 +181,9 @@ public with sharing class Tech_OpportunityManager {
                 }
                 
                 opp.Notas_Vendedor__c = ficha;
-                opp.Description = 'Oportunidad orquestada por IA Agentforce - Ramo: ' + req.ramo;
+                
+                String descPrefix = 'Oportunidad orquestada por IA Agentforce - Ramo: ' + req.ramo;
+                opp.Description = String.isNotBlank(req.technicalNotes) ? descPrefix + '\nContexto: ' + req.technicalNotes : descPrefix;
 
                 insert opp;
 
@@ -196,5 +198,37 @@ public with sharing class Tech_OpportunityManager {
             results.add(res);
         }
         return results;
+    }
+
+    /**
+     * @description Mapea el ramo y subproducto a un ID de Producto real en Salesforce.
+     * Utiliza los códigos técnicos de producto (ProductCode) identificados en el catálogo.
+     */
+    private static Id mapProduct(String ramo, String subproducto) {
+        if (String.isBlank(ramo)) return null;
+
+        String searchCode = '';
+        String cleanRamo = ramo.toUpperCase();
+        String cleanSub = String.isNotBlank(subproducto) ? subproducto.toUpperCase() : '';
+
+        if (cleanRamo.contains('AUTO')) {
+            if (cleanSub.contains('AMPLIA')) searchCode = 'AUTO-AMPLIA';
+            else if (cleanSub.contains('LIMITADA')) searchCode = 'AUTO-LIMITADA';
+            else if (cleanSub.contains('RC')) searchCode = 'AUTO-RC';
+            else searchCode = 'AUTO-AMPLIA'; // Default para autos
+        } 
+        else if (cleanRamo.contains('VIDA')) searchCode = 'VIDA-001';
+        else if (cleanRamo.contains('GMM') || cleanRamo.contains('MEDIC')) searchCode = 'GMM-001';
+        else if (cleanRamo.contains('PPR') || cleanRamo.contains('RETIRO')) searchCode = 'PPR-001';
+        else if (cleanRamo.contains('FIANZA')) searchCode = 'FZA-CUMP';
+
+        if (String.isBlank(searchCode)) return null;
+
+        try {
+            List<Product2> prods = [SELECT Id FROM Product2 WHERE ProductCode = :searchCode AND IsActive = true LIMIT 1];
+            return prods.isEmpty() ? null : prods[0].Id;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
