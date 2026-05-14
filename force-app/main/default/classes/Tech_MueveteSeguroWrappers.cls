@@ -9,6 +9,30 @@ public class Tech_MueveteSeguroWrappers {
         @AuraEnabled public String name;
     }
 
+    /**
+     * @description DTO para cotización de seguros de vida.
+     */
+    public class LifeQuoteRequest {
+        public String birthDate;
+        public String gender;
+        public String zipCode;
+        public Boolean isSmoker;
+        public Decimal desiredAmount;
+        public String objective;
+        public String term;
+    }
+
+    /**
+     * @description Resultado de cotización de vida.
+     */
+    public class LifeQuoteResult {
+        @AuraEnabled public String insurer;
+        @AuraEnabled public String planName;
+        @AuraEnabled public Decimal monthlyPremium;
+        @AuraEnabled public Decimal annualPremium;
+        @AuraEnabled public String coverageDetails;
+    }
+
     public class CatalogListResponse {
         @AuraEnabled public List<CatalogItem> items;
         @AuraEnabled public List<Integer> yearItems;
@@ -56,6 +80,7 @@ public class Tech_MueveteSeguroWrappers {
         @InvocableVariable @AuraEnabled public String type;
         @InvocableVariable @AuraEnabled public Boolean required;
         @InvocableVariable @AuraEnabled public String description;
+        @InvocableVariable @AuraEnabled public String value;
         @InvocableVariable @AuraEnabled public List<Option> options;
     }
 

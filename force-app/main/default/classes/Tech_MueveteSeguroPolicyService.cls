@@ -1,20 +1,36 @@
 /**
- * @description Módulo de póliza con blindaje total.
- * Cruza datos por Label o por Value para evitar errores de la API.
+ * @description Módulo de póliza con Blindaje de Inteligencia Artificial.
+ * Traduce lenguaje natural a códigos técnicos mediante algoritmos de búsqueda flexible.
  */
 public class Tech_MueveteSeguroPolicyService extends Tech_MueveteSeguroBase {
     
+    /**
+     * @description Envía los datos finales del asegurado con mapeo inteligente de etiquetas.
+     */
     public static Tech_MueveteSeguroWrappers.PolicyResponse submitInsuredData(String quotationId, Map<String, Object> dynamicFields, List<Tech_MueveteSeguroWrappers.Option> allOptions) {
         String path = '/bot/quotation/' + quotationId + '/insured';
         
+        // CEREBRO DE TRADUCCIÓN: Si tenemos opciones, buscamos el mejor match para cada campo dinámico.
         if (allOptions != null && !allOptions.isEmpty()) {
             for (String fieldKey : dynamicFields.keySet()) {
-                String userVal = String.valueOf(dynamicFields.get(fieldKey));
+                Object rawVal = dynamicFields.get(fieldKey);
+                if (rawVal == null || !(rawVal instanceof String)) continue;
+                
+                String userVal = ((String)rawVal).trim().toUpperCase();
+                
                 for (Tech_MueveteSeguroWrappers.Option opt : allOptions) {
-                    // BLINDAJE: Si el usuario dio el nombre (Label) O el valor (Value), mapeamos al valor oficial.
-                    if ((opt.label != null && userVal.equalsIgnoreCase(opt.label)) || 
-                        (opt.value != null && userVal.equalsIgnoreCase(opt.value))) {
-                        dynamicFields.put(fieldKey, opt.value);
+                    String optLabel = (opt.label != null) ? opt.label.toUpperCase() : '';
+                    String optValue = (opt.value != null) ? opt.value.toUpperCase() : '';
+                    
+                    // ALGORITMO DE MAPEO INTELIGENTE (Multi-nivel)
+                    // 1. Match exacto con el código (ej. "C3" == "C3")
+                    // 2. Match exacto con la etiqueta (ej. "CASADO" == "CASADO")
+                    // 3. Contención (ej. "INE" está dentro de "CREDENCIAL IFE / INE")
+                    if (userVal == optValue || userVal == optLabel || 
+                        (optLabel != '' && optLabel.contains(userVal)) || 
+                        (optLabel != '' && userVal.contains(optLabel))) {
+                        
+                        dynamicFields.put(fieldKey, opt.value); // Intercambiamos texto por código técnico
                         break;
                     }
                 }

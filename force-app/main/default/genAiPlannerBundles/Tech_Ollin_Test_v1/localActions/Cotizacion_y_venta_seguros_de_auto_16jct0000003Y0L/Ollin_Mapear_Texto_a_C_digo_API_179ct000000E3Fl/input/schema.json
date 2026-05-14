@@ -1,0 +1,21 @@
+{
+  "required" : [ "userInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "filter" : {
+      "title" : "Contexto/Filtro",
+      "description" : "Contexto adicional para el mapeo, como el nombre de la aseguradora, para asegurar que el código devuelto sea el correcto para ese proveedor.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "userInput" : {
+      "title" : "Texto del Usuario",
+      "description" : "El nombre de la ocupación o valor seleccionado por el usuario en lenguaje natural (ej. \"Soy Empleado\" o \"Estudiante\").",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -1,0 +1,70 @@
+{
+  "required" : [ "birthDate", "fullName", "gender", "isSmoker", "monthlyContribution", "objective", "phone", "term", "zipCode" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "birthDate" : {
+      "title" : "Fecha de Nacimiento (AAAA-MM-DD)",
+      "description" : "Indispensable para calcular la edad técnica actuarial. Formato: YYYY-MM-DD.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "fullName" : {
+      "title" : "Nombre Completo",
+      "description" : "Nombre y apellidos del asegurado para el registro del lead.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "gender" : {
+      "title" : "Género (M/F)",
+      "description" : "Género biológico (M para Masculino, F para Femenino) para cálculo de prima.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "isSmoker" : {
+      "title" : "¿Es Fumador? (true/false)",
+      "description" : "Dato crítico de salud. true si el cliente ha fumado en los últimos 12 meses.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "monthlyContribution" : {
+      "title" : "Aportación Mensual Deseada",
+      "description" : "Monto en moneda nacional (MXN) que el cliente desea ahorrar o pagar mensualmente.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "objective" : {
+      "title" : "Objetivo (Retiro, Ahorro, Protección)",
+      "description" : "Meta principal del seguro: Retiro (jubilación), Ahorro (metas financieras) o Protección (fallecimiento).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "phone" : {
+      "title" : "Teléfono",
+      "description" : "Número telefónico de contacto a 10 dígitos.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "term" : {
+      "title" : "Plazo en años",
+      "description" : "Número de años que el cliente desea mantener el plan de protección y ahorro.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "zipCode" : {
+      "title" : "Código Postal",
+      "description" : "Código postal de residencia para determinar zona de riesgo.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

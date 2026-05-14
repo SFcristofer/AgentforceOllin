@@ -1,0 +1,231 @@
+{
+  "required" : [ "vAnho", "vApellido", "vAportacion", "vCP", "vCompania", "vContrato", "vCrearOportunidad", "vCurp", "vEmail", "vFechaNacimiento", "vGenero", "vMarca", "vModelo", "vMonto", "vNombre", "vPresupuesto", "vRFC", "vScoreCalificacion", "vTelefono", "vTipoFianza", "vTipoSeguro", "vTipo_de_cobertura", "vUbicacion", "vUso", "vVersion" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "recordId" : {
+      "title" : "recordId",
+      "description" : "almacena el id del cliente encontrado ya sea prospecto o cliente",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vAnho" : {
+      "title" : "vAnho",
+      "description" : "Año de fabricación del vehículo (4 dígitos) en número entero.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vApellido" : {
+      "title" : "vApellido",
+      "description" : "Apellidos del cliente. Si el cliente no los proporciona, se usará un valor por defecto para el registro.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vAportacion" : {
+      "title" : "vAportacion",
+      "description" : "Monto estimado que el cliente desea ahorrar o invertir mensualmente.",
+      "lightning:type" : "lightning__currencyType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vCP" : {
+      "title" : "vCP",
+      "description" : "Pasa aquí el valor recolectado como el Código Postal del usuario",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vCompania" : {
+      "title" : "vCompania",
+      "description" : "Si el cliente cuenta con alguna compañía deberás poner el nombre de la compañía y si el cliente dice que no cuenta con compañía deberás poner como Personal",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vContrato" : {
+      "title" : "vContrato",
+      "description" : "Información sobre el documento fuente o contrato que origina la necesidad de la fianza o seguro.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vCrearOportunidad" : {
+      "title" : "vCrearOportunidad",
+      "description" : "Interruptor de negocio para clientes existentes. Si identificas que el usuario ya es cliente (Cuenta o Lead) pero está pidiendo una cotización para un ramo nuevo o una nueva necesidad, marca esto como TRUE para generar la oportunidad comercial. Si solo está consultando algo de lo que ya tiene, déjalo en FALSE.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vCurp" : {
+      "title" : "vCurp",
+      "description" : "Pasa aquí el valor recolectado como el CURP del usuario. Datos de identidad oficial. Pídelos para asegurar que el registro sea único y profesional, especialmente si el cliente ya ha tenido tratos previos con nosotros.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vEmail" : {
+      "title" : "vEmail",
+      "description" : "Dirección de correo electrónico de contacto del prospecto. Dato primario de contacto y llave de identidad. Es obligatorio para procesar cualquier solicitud.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vFechaNacimiento" : {
+      "title" : "vFechaNacimiento",
+      "description" : "Fecha de nacimiento del cliente en formato DD/MM/AAAA. Es indispensable para calcular la edad y la prima.",
+      "lightning:type" : "lightning__dateType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vFuma" : {
+      "title" : "vFuma",
+      "description" : "Indica si el cliente tiene el hábito de fumar (Sí o No). Afecta directamente la prima de vida.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vGenero" : {
+      "title" : "vGenero",
+      "description" : "Sexo biológico del cliente (Masculino o Femenino) para fines de cálculo de riesgo.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vHospitales" : {
+      "title" : "vHospitales",
+      "description" : "Nombres o nivel de los hospitales donde el cliente prefiere recibir atención médica.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vMarca" : {
+      "title" : "vMarca",
+      "description" : "Es la Marca del auto",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vModelo" : {
+      "title" : "vModelo",
+      "description" : "Sub-marca o modelo específico del vehículo (ejemplo: Corolla, Mustang, Versa)",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vMonto" : {
+      "title" : "vMonto",
+      "description" : "Valor total de la fianza o monto que se solicita asegurar en el contrato.",
+      "lightning:type" : "lightning__currencyType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vNombre" : {
+      "title" : "vNombre",
+      "description" : "Primer nombre o nombres del cliente interesado en el seguro.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vObjetivo" : {
+      "title" : "vObjetivo",
+      "description" : "La meta principal del plan de seguro, como 'Retiro', 'Ahorro' o 'Protección de vida'.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vOportunidad" : {
+      "title" : "vOportunidad",
+      "description" : "ID de la Oportunidad resultante. Al finalizar el flujo, esta variable contendrá el ID de la oportunidad (nueva o existente) sobre la cual se deberá continuar el proceso de cotización técnica.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vPadecimientos" : {
+      "title" : "vPadecimientos",
+      "description" : "Descripción de enfermedades o condiciones médicas preexistentes del cliente o sus dependientes.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vPlazo" : {
+      "title" : "vPlazo",
+      "description" : "Tiempo de duración del contrato o número de años que el cliente desea pagar (ejemplo: 10 años, 20 años).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vPresupuesto" : {
+      "title" : "vPresupuesto",
+      "description" : "Cantidad máxima de dinero que el cliente tiene destinada para el pago de su póliza anual.",
+      "lightning:type" : "lightning__currencyType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vRFC" : {
+      "title" : "vRFC",
+      "description" : "Pasa aquí el valor recolectado como RFC del usuario. Datos de identidad oficial. Pídelos para asegurar que el registro sea único y profesional, especialmente si el cliente ya ha tenido tratos previos con nosotros.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vScoreCalificacion" : {
+      "title" : "vScoreCalificacion",
+      "description" : "Nivel de calificación del prospecto (0-100). Asigna un valor basado en qué tan completa está la información y qué tan lista parece la persona para comprar. A mayor puntaje, mayor prioridad tendrá en el CRM.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vTelefono" : {
+      "title" : "vTelefono",
+      "description" : "Número de teléfono móvil o fijo de contacto del cliente. Dato primario de contacto y llave de identidad. Es obligatorio para procesar cualquier solicitud.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vTipoFianza" : {
+      "title" : "vTipoFianza",
+      "description" : "El tipo específico de fianza que le solicitan al cliente (ejemplo: de cumplimiento, de anticipo).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vTipoSeguro" : {
+      "title" : "vTipoSeguro",
+      "description" : "Ramo técnico del seguro. Define el mercado de interés. Valores aceptados: 'Auto', 'Vida', 'Gastos Medicos', 'Fianzas'. Este valor es indispensable para que el flujo busque u cree la oportunidad en el departamento correcto.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vTipo_de_cobertura" : {
+      "title" : "vTipo_de_cobertura",
+      "description" : "Recopilaras el tipo de cobertura seleccionada por el cliente (Por ejemplo: Básica, Amplia, Limitada)",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vUbicacion" : {
+      "title" : "vUbicacion",
+      "description" : "Dirección física completa donde se localiza el riesgo o la obra objeto de la fianza.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vUso" : {
+      "title" : "vUso",
+      "description" : "Tipo de uso que se le da al vehículo, ya sea 'Particular' o 'Transporte por aplicación'",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vVersion" : {
+      "title" : "vVersion",
+      "description" : "Descripción detallada de la versión del auto (ejemplo: Equipado, LX, Estándar).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

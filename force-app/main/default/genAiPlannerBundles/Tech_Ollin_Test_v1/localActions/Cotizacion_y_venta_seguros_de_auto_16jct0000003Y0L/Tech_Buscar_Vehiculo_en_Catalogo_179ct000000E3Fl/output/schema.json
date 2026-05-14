@@ -1,0 +1,41 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "availableYears" : {
+      "title" : "Anios Disponibles",
+      "description" : "Lista numerica de los años disponibles en el catalogo de Ollin.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "lightning__integerType"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorMessage" : {
+      "title" : "Error",
+      "description" : "Mensaje detallado si ocurre un problema tecnico con la API de catalogos.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "options" : {
+      "title" : "Lista de Opciones",
+      "description" : "Contiene una lista de objetos con el ID y el Nombre de las opciones encontradas (Marcas, Modelos o Versiones).",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/c__Tech_MueveteSeguroWrappers$CatalogItem"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

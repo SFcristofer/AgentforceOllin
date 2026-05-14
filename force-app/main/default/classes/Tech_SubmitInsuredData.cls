@@ -1,95 +1,100 @@
 /**
  * @description Acción Invocable de Alta Precisión para Agentforce.
- * Contiene metadatos descriptivos detallados para que la IA entienda cuándo y qué pedir.
+ * Procesa dinámicamente cualquier campo requerido por la aseguradora.
  */
 public class Tech_SubmitInsuredData {
 
     public class PolicyInput {
-        @InvocableVariable(label='ID de Cotizacion' description='El identificador único de la cotización seleccionada en el paso anterior.' required=true)
+        @InvocableVariable(label='ID de Cotizacion' required=true)
         public String quotationId;
         
-        @InvocableVariable(label='RFC' description='Registro Federal de Contribuyentes (13 caracteres). Pídelo si la aseguradora lo requiere para la emisión.')
+        @InvocableVariable(label='RFC')
         public String rfc;
         
-        @InvocableVariable(label='CURP' description='Clave Única de Registro de Población (18 caracteres). Pídelo solo si Tech_ProcessRequiredFields indica que es obligatorio.')
+        @InvocableVariable(label='CURP')
         public String curp;
         
-        @InvocableVariable(label='Numero de Serie (VIN)' description='Número de identificación vehicular de 17 caracteres. Es indispensable para la emisión de la póliza.')
+        @InvocableVariable(label='Numero de Serie (VIN)')
         public String vin;
         
-        @InvocableVariable(label='Calle y Numero' description='Dirección completa del asegurado incluyendo calle, número exterior e interior.')
+        @InvocableVariable(label='Calle y Numero')
         public String street;
         
-        @InvocableVariable(label='Ocupacion' description='Actividad laboral del cliente. Usa los valores proporcionados por el catálogo de la aseguradora.')
+        @InvocableVariable(label='Ocupacion')
         public String occupation;
 
-        @InvocableVariable(label='Estado Civil' description='Situación civil del cliente (C, D, S, U, V).')
+        @InvocableVariable(label='Estado Civil')
         public String maritalStatus;
         
-        @InvocableVariable(label='Apellido Paterno' description='Primer apellido del asegurado. Es un dato obligatorio para el contrato.' required=true)
+        @InvocableVariable(label='Apellido Paterno' required=true)
         public String paternalSurname;
         
-        @InvocableVariable(label='Apellido Materno' description='Segundo apellido del asegurado. Si no lo tienes, pídelo al usuario.' required=true)
+        @InvocableVariable(label='Apellido Materno' required=true)
         public String maternalSurname;
 
-        @InvocableVariable(label='Nombres (Pila)' description='Nombre o nombres del asegurado (sin apellidos).' required=true)
+        @InvocableVariable(label='Nombres (Pila)' required=true)
         public String firstName;
 
-        @InvocableVariable(label='Telefono' description='Número telefónico de contacto a 10 dígitos.' required=true)
+        @InvocableVariable(label='Telefono' required=true)
         public String phone;
 
-        @InvocableVariable(label='Fecha de Nacimiento' description='Fecha en formato AAAA-MM-DD del asegurado.' required=true)
+        @InvocableVariable(label='Fecha de Nacimiento' required=true)
         public String birthDate;
 
-        @InvocableVariable(label='Email' description='Correo electrónico para el envío de la póliza digital.')
+        @InvocableVariable(label='Email')
         public String email;
 
-        @InvocableVariable(label='Lista de Opciones Dinamicas' description='Recibe la lista requiredFields de la acción anterior para validar códigos internos de la aseguradora.')
+        @InvocableVariable(label='Lista de Opciones Dinamicas' description='Pasa aqui la lista requerida obtenida en el paso 3.')
         public List<Tech_MueveteSeguroWrappers.RequiredField> allRequiredFields;
     }
 
     public class PolicyOutput {
-        @InvocableVariable(label='ID de Poliza' description='Identificador interno de la póliza generada.')
+        @InvocableVariable(label='ID de Poliza')
         public String policyId;
-        @InvocableVariable(label='URL de Pago' description='Enlace directo a la pasarela de pago para el cliente.')
+        @InvocableVariable(label='URL de Pago')
         public String paymentUrl;
-        @InvocableVariable(label='Monto Total' description='Costo final de la póliza en pesos mexicanos.')
+        @InvocableVariable(label='Monto Total')
         public Decimal totalAmount;
-        @InvocableVariable(label='Error' description='Mensaje detallado en caso de que la emisión falle.')
+        @InvocableVariable(label='Error')
         public String errorMessage;
     }
 
-    @InvocableMethod(label='Tech: Emitir Poliza y Pago' description='Acción final para generar la póliza y el link de pago. Utiliza todos los datos recolectados del cliente.')
+    @InvocableMethod(label='Tech: Emitir Poliza y Pago' description='Genera la póliza enviando los datos recolectados y traduciendo etiquetas automáticamente.')
     public static List<PolicyOutput> execute(List<PolicyInput> inputs) {
         List<PolicyOutput> outputs = new List<PolicyOutput>();
         for (PolicyInput input : inputs) {
             PolicyOutput out = new PolicyOutput();
             try {
+                Map<String, Object> data = new Map<String, Object>();
                 List<Tech_MueveteSeguroWrappers.Option> flatOptions = new List<Tech_MueveteSeguroWrappers.Option>();
+
+                // 1. RECOLECCIÓN DE DATOS DINÁMICOS (Ej. Placas, INE)
                 if(input.allRequiredFields != null) {
                     for(Tech_MueveteSeguroWrappers.RequiredField f : input.allRequiredFields) {
+                        if(String.isNotBlank(f.value)) {
+                            data.put(f.field, f.value); // Guardamos la respuesta del usuario para ese campo
+                        }
                         if(f.options != null) flatOptions.addAll(f.options);
                     }
                 }
 
-                Map<String, Object> data = new Map<String, Object>();
-                data.put('rfcKey', input.rfc);
-                data.put('curp', input.curp);
-                data.put('serialNumber', input.vin); 
+                // 2. DATOS BASE (Con prioridad sobre los dinámicos)
+                if(String.isNotBlank(input.rfc)) data.put('rfcKey', input.rfc);
+                if(String.isNotBlank(input.curp)) data.put('curp', input.curp);
+                if(String.isNotBlank(input.vin)) data.put('serialNumber', input.vin); 
                 data.put('phone', input.phone);
                 data.put('birthdate', input.birthDate);
                 data.put('email', input.email);
                 data.put('street', input.street);
-                data.put('occupation', input.occupation);
-                data.put('maritalStatus', input.maritalStatus);
+                if(String.isNotBlank(input.occupation)) data.put('occupation', input.occupation);
+                if(String.isNotBlank(input.maritalStatus)) data.put('maritalStatus', input.maritalStatus);
                 data.put('paternalSurname', input.paternalSurname);
                 data.put('maternalSurname', input.maternalSurname);
-                data.put('fullName', input.firstName); // HDI requiere esto como nombre de pila
-                
-                // Mapeo extendido para asegurar éxito
+                data.put('fullName', input.firstName); 
                 data.put('firstName', input.firstName);
                 data.put('lastName', input.paternalSurname + ' ' + input.maternalSurname);
 
+                // 3. LLAMADA AL SERVICIO (Con Cerebro de Traducción para etiquetas)
                 Tech_MueveteSeguroWrappers.PolicyResponse res = 
                     Tech_MueveteSeguroPolicyService.submitInsuredData(input.quotationId, data, flatOptions);
                 

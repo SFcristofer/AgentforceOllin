@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Asignar_Resultado_Cuenta</name>
+        <label>Asignar Resultado Cuenta</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>rOportunidad.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vStatus</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>EXISTING_OPPORTUNITY</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Asignar_Resultado_Lead</name>
+        <label>Asignar Resultado Lead</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>rLead.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vStatus</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>EXISTING_LEAD</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Existe_Contacto</name>
+        <label>¿Existe Contacto?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Buscar_Lead_Existente</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Existe</defaultConnectorLabel>
+        <rules>
+            <name>Contacto_Encontrado</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>rContacto</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Buscar_Oportunidad_Abierta</targetReference>
+            </connector>
+            <label>Si Existe</label>
+        </rules>
+    </decisions>
     <description>Paso 0 - Identifica si el cliente ya existe como Cuenta u Oportunidad antes de proceder con el registro de Lead en Agentforce.</description>
     <environments>Default</environments>
     <interviewLabel>Tech: Identificar Cliente Agentforce {!$Flow.CurrentDateTime}</interviewLabel>
@@ -18,13 +84,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    
-    <!-- 1. BUSCAR CUENTA/CONTACTO POR EMAIL -->
     <recordLookups>
         <name>Buscar_Contacto</name>
         <label>Buscar Contacto</label>
-        <locationX>176</locationX>
-        <locationY>150</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Existe_Contacto</targetReference>
@@ -49,76 +113,11 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>AccountId</queriedFields>
     </recordLookups>
-
-    <decisions>
-        <name>Existe_Contacto</name>
-        <label>¿Existe Contacto?</label>
-        <locationX>176</locationX>
-        <locationY>250</locationY>
-        <defaultConnector>
-            <targetReference>Buscar_Lead_Existente</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Existe</defaultConnectorLabel>
-        <rules>
-            <name>Contacto_Encontrado</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>rContacto</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Buscar_Oportunidad_Abierta</targetReference>
-            </connector>
-            <label>Si Existe</label>
-        </rules>
-    </decisions>
-
-    <!-- 2. BUSCAR OPORTUNIDAD PARA CUENTA EXISTENTE -->
-    <recordLookups>
-        <name>Buscar_Oportunidad_Abierta</name>
-        <label>Buscar Oportunidad Abierta</label>
-        <locationX>100</locationX>
-        <locationY>350</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Asignar_Resultado_Cuenta</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>AccountId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>rContacto.AccountId</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>IsClosed</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Tipo_de_seguro__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>vTipoSeguro</elementReference>
-            </value>
-        </filters>
-        <object>Opportunity</object>
-        <outputReference>rOportunidad</outputReference>
-        <queriedFields>Id</queriedFields>
-    </recordLookups>
-
-    <!-- 3. BUSCAR LEAD SI NO HAY CUENTA -->
     <recordLookups>
         <name>Buscar_Lead_Existente</name>
         <label>Buscar Lead Existente</label>
-        <locationX>300</locationX>
-        <locationY>350</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Asignar_Resultado_Lead</targetReference>
@@ -143,65 +142,69 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>IsConverted</queriedFields>
     </recordLookups>
-
-    <assignments>
-        <name>Asignar_Resultado_Cuenta</name>
-        <label>Asignar Resultado Cuenta</label>
-        <locationX>100</locationX>
-        <locationY>450</locationY>
-        <assignmentItems>
-            <assignToReference>vRecordId</assignToReference>
-            <operator>Assign</operator>
+    <recordLookups>
+        <name>Buscar_Oportunidad_Abierta</name>
+        <label>Buscar Oportunidad Abierta</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Asignar_Resultado_Cuenta</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
             <value>
-                <elementReference>rOportunidad.Id</elementReference>
+                <elementReference>rContacto.AccountId</elementReference>
             </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>vStatus</assignToReference>
-            <operator>Assign</operator>
+        </filters>
+        <filters>
+            <field>IsClosed</field>
+            <operator>EqualTo</operator>
             <value>
-                <stringValue>EXISTING_OPPORTUNITY</stringValue>
+                <booleanValue>false</booleanValue>
             </value>
-        </assignmentItems>
-    </assignments>
-
-    <assignments>
-        <name>Asignar_Resultado_Lead</name>
-        <label>Asignar Resultado Lead</label>
-        <locationX>300</locationX>
-        <locationY>450</locationY>
-        <assignmentItems>
-            <assignToReference>vRecordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>rLead.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>vStatus</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>EXISTING_LEAD</stringValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-
+        </filters>
+        <object>Opportunity</object>
+        <outputReference>rOportunidad</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Buscar_Contacto</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>rContacto</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <name>rLead</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Lead</objectType>
+    </variables>
+    <variables>
+        <name>rOportunidad</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
     <variables>
         <name>vEmail</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>vTelefono</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>vTipoSeguro</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -222,27 +225,17 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>rContacto</name>
-        <dataType>SObject</dataType>
+        <name>vTelefono</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
     </variables>
     <variables>
-        <name>rOportunidad</name>
-        <dataType>SObject</dataType>
+        <name>vTipoSeguro</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
-        <objectType>Opportunity</objectType>
-    </variables>
-    <variables>
-        <name>rLead</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Lead</objectType>
     </variables>
 </Flow>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>MÓDULO DE VIDA - PASO 2. Genera una cotización formal de seguro de vida basándose en la edad, género, hábitos de salud (fumador) y metas de ahorro del usuario. Esta acción debe ejecutarse después de recolectar los datos básicos de perfil.</description>
+    <developerName>Tech_GetLifeRates</developerName>
+    <invocationTarget>Tech_CreateLifeQuotation</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <masterLabel>Tech: Cotizar Seguro de Vida</masterLabel>
+    <progressIndicatorMessage>Calculando primas de vida y salud...</progressIndicatorMessage>
+</GenAiFunction>

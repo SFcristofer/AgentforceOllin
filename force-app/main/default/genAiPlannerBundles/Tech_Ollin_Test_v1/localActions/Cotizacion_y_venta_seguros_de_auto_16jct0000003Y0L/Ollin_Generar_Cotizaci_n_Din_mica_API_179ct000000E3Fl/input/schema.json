@@ -1,0 +1,35 @@
+{
+  "required" : [ "birthDate", "gender", "vehicleVersionId", "zipCode" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "birthDate" : {
+      "title" : "Fecha de Nacimiento",
+      "description" : "Fecha de nacimiento del conductor en formato AAAA-MM-DD. Se usa para calcular la edad y determinar el rango de riesgo.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "gender" : {
+      "title" : "Género",
+      "description" : "Género del conductor principal. Valores esperados: M (Masculino), F (Femenino) u Otro. Influye en la tarificación estadística.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vehicleVersionId" : {
+      "title" : "ID de Versión de Vehículo",
+      "description" : "El identificador único (UUID) de la versión técnica del vehículo obtenida previamente del catálogo. Define el valor comercial del auto.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "zipCode" : {
+      "title" : "Código Postal",
+      "description" : "El código postal de 5 dígitos de la zona donde circula el vehículo. Esencial para calcular el riesgo por zona geográfica.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

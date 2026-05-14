@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Genera una cotizacion de seguro de auto consultando las 5 aseguradoras (HDI, ANA, GNP, QUALITAS, CHUBB). Devuelve precios, coberturas y opciones de pago. Requiere datos del vehiculo y del asegurado.</description>
+    <developerName>Generar_Cotizacion_de_Seguro</developerName>
+    <invocationTarget>MueveteSeguroQuotation</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Generar_Cotizacion_de_Seguro</localDeveloperName>
+    <masterLabel>Generar Cotizacion de Seguro</masterLabel>
+    <progressIndicatorMessage>Generando cotizacion con aseguradoras...</progressIndicatorMessage>
+</GenAiFunction>

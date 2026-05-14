@@ -1,0 +1,19 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "options" : {
+      "title" : "Lista de Opciones de Ocupación",
+      "description" : "Colección de objetos que contienen etiquetas legibles (ej. Empleado) y sus valores técnicos correspondientes (ej. 9BJG) obtenidos dinámicamente de la API.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/c__TechCatalogWrapper"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

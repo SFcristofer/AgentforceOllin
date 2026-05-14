@@ -1,0 +1,15 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "technicalCode" : {
+      "title" : "Código Técnico Resultante",
+      "description" : "El código alfanumérico técnico (ej. 9BJK) que corresponde a la selección del usuario y que es requerido por la API de emisión.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

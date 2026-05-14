@@ -2,6 +2,211 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Asignaci_n_1</name>
+        <label>Id del registro encontrado</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>recordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Buscar_Cuenta.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Buscar_Oportunidad_de_Cuenta</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Asignaci_n_4</name>
+        <label>Asignación 4</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>recordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Buscar_Prospectos.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Buscar_oportunidad_de_Prospecto</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Asignar_Nueva_a_prospecto</name>
+        <label>Asignar Nueva a prospecto</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vOportunidad</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Crear_Oportunidad_relacionada_al_prospecto.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Asignar_Nueva_Oportunidad</name>
+        <label>Asignar Nueva Oportunidad</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vOportunidad</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Crear_Oportunidad_relacionada_a_la_cuenta.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Asignar_Oportunidad_Existente</name>
+        <label>Asignar Oportunidad Existente</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vOportunidad</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Buscar_Oportunidad_de_Cuenta.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Asignar_Oportunidad_Existente_de_prospecto</name>
+        <label>Asignar Oportunidad Existente de prospecto</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vOportunidad</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Buscar_Prospectos.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Existe_el_registro</name>
+        <label>Existe el registro</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Crear_Candidato_de_Seguros</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Si_se_encontro_Cuenta</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Buscar_Cuenta.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignaci_n_1</targetReference>
+            </connector>
+            <label>Si se encontro Cuenta</label>
+        </rules>
+        <rules>
+            <name>Si_se_encontro_Prospecto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Buscar_Prospectos.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignaci_n_4</targetReference>
+            </connector>
+            <label>Si se encontro Prospecto</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Qu_hacer_con_la_Oportunidad</name>
+        <label>¿Qué hacer con la Oportunidad?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Resultado predeterminado</defaultConnectorLabel>
+        <rules>
+            <name>Si_hay</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Buscar_Prospectos</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignar_Oportunidad_Existente_de_prospecto</targetReference>
+            </connector>
+            <label>Si hay</label>
+        </rules>
+        <rules>
+            <name>Crear_nueva_oportunidad</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>vCrearOportunidad</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Obtener_Nuevos_productos</targetReference>
+            </connector>
+            <label>Crear nueva oportunidad</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Que_hacer_con_la_Oportunidad</name>
+        <label>¿Qué hacer con la Oportunidad?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No crear</defaultConnectorLabel>
+        <rules>
+            <name>Ya_existe</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Buscar_Oportunidad_de_Cuenta</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignar_Oportunidad_Existente</targetReference>
+            </connector>
+            <label>Ya existe</label>
+        </rules>
+        <rules>
+            <name>Crear_Nueva</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>vCrearOportunidad</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Buscar_Oportunidad_de_Cuenta</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copia_2_de_Obtener_productos</targetReference>
+            </connector>
+            <label>Crear Nueva</label>
+        </rules>
+    </decisions>
     <description>Este flujo se utiliza para crear un nuevo registro de Candidato (Lead) en Salesforce después de haber recolectado la información necesaria para una cotización de seguros. Debe ejecutarse únicamente cuando el cliente ha proporcionado todos los datos obligatorios según el ramo de interés: Auto, Gastos Médicos Mayores (GMM), Vida/PPR o Fianzas. El flujo mapea datos personales, técnicos del riesgo y preferencias de cobertura para asegurar un seguimiento comercial completo.</description>
     <environments>Default</environments>
     <interviewLabel>Tech Agentforce - Registro de Leads Seguros {!$Flow.CurrentDateTime}</interviewLabel>
@@ -30,6 +235,9 @@
         <label>Crear Candidato de Seguros</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
+        <connector>
+            <targetReference>Obtener_Lead</targetReference>
+        </connector>
         <inputAssignments>
             <field>Anho__c</field>
             <value>
@@ -40,6 +248,18 @@
             <field>Aportacion_Estimada__c</field>
             <value>
                 <elementReference>vAportacion</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CP__c</field>
+            <value>
+                <elementReference>vCP</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CURP__c</field>
+            <value>
+                <elementReference>vCurp</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -127,6 +347,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Plazo_Plan__c</field>
+            <value>
+                <elementReference>vPlazo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>PostalCode</field>
             <value>
                 <elementReference>vCP</elementReference>
@@ -139,9 +365,27 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>RFC__c</field>
+            <value>
+                <elementReference>vRFC</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Score__c</field>
             <value>
                 <elementReference>vScoreCalificacion</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Street</field>
+            <value>
+                <elementReference>vUbicacion</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_Vendedor__c</field>
+            <value>
+                <stringValue>a0Qct00000Fj2UrEAJ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -159,7 +403,7 @@
         <inputAssignments>
             <field>Tipo_de_seguro__c</field>
             <value>
-                <stringValue>Seguros de auto</stringValue>
+                <elementReference>vTipoSeguro</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -177,17 +421,535 @@
         <object>Lead</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Crear_Oportunidad</name>
+        <label>Crear Oportunidad</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>Obtener_Lead.Presupuesto__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ano_vehiculo__c</field>
+            <value>
+                <elementReference>Obtener_Lead.Anho__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Fecha_Inicio_Vigencia__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Institucion__c</field>
+            <value>
+                <elementReference>Obtener_productos.Institucion__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <stringValue>Agentforce</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Metodo_Pago__c</field>
+            <value>
+                <stringValue>Transferencia (SPEI)</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Modelo__c</field>
+            <value>
+                <elementReference>Obtener_Lead.Modelo__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Obtener_Lead.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Periodo_Pago__c</field>
+            <value>
+                <stringValue>Contado</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Probability</field>
+            <value>
+                <elementReference>Obtener_Lead.Score__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Producto__c</field>
+            <value>
+                <elementReference>Obtener_productos.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Prospecto__c</field>
+            <value>
+                <elementReference>Obtener_Lead.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ramo__c</field>
+            <value>
+                <elementReference>vTipoSeguro</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Propuesta enviada / presentada</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Nueva</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vendedor_A__c</field>
+            <value>
+                <stringValue>a0Qct00000Fj2UrEAJ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vigencia__c</field>
+            <value>
+                <numberValue>12.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Crear_Oportunidad_relacionada_a_la_cuenta</name>
+        <label>Crear Oportunidad relacionada a la cuenta</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Asignar_Nueva_Oportunidad</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>vMonto</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ano_vehiculo__c</field>
+            <value>
+                <elementReference>vAnho</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Fecha_Inicio_Vigencia__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <stringValue>Agentforce</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Metodo_Pago__c</field>
+            <value>
+                <stringValue>Transferencia (SPEI)</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Modelo__c</field>
+            <value>
+                <elementReference>vModelo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>vNombre</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Periodo_Pago__c</field>
+            <value>
+                <stringValue>Contado</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Probability</field>
+            <value>
+                <elementReference>vScoreCalificacion</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Producto__c</field>
+            <value>
+                <elementReference>Copia_2_de_Obtener_productos.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ramo__c</field>
+            <value>
+                <elementReference>vTipoSeguro</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Propuesta enviada / presentada</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Nueva</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vendedor_A__c</field>
+            <value>
+                <stringValue>a0Qct00000Fj2UrEAJ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vigencia__c</field>
+            <value>
+                <numberValue>12.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Crear_Oportunidad_relacionada_al_prospecto</name>
+        <label>Crear Oportunidad relacionada al prospecto</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Asignar_Nueva_a_prospecto</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Prospecto__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>vMonto</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ano_vehiculo__c</field>
+            <value>
+                <elementReference>vAnho</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Fecha_Inicio_Vigencia__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <stringValue>Agentforce</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Metodo_Pago__c</field>
+            <value>
+                <stringValue>Transferencia (SPEI)</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Modelo__c</field>
+            <value>
+                <elementReference>vModelo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>vNombre</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Periodo_Pago__c</field>
+            <value>
+                <stringValue>Contado</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Probability</field>
+            <value>
+                <elementReference>vScoreCalificacion</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Producto__c</field>
+            <value>
+                <elementReference>Obtener_Nuevos_productos.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Ramo__c</field>
+            <value>
+                <elementReference>vTipoSeguro</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Propuesta enviada / presentada</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Nueva</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vendedor_A__c</field>
+            <value>
+                <stringValue>a0Qct00000Fj2UrEAJ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Vigencia__c</field>
+            <value>
+                <numberValue>12.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Se buscara en el objeto Account para verificar si existe una cuenta en base a la información dentro de las variables.</description>
+        <name>Buscar_Cuenta</name>
+        <label>Buscar Cuenta</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Buscar_Prospectos</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>vEmail</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Buscar_Oportunidad_de_Cuenta</name>
+        <label>Buscar Oportunidad de Cuenta</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Que_hacer_con_la_Oportunidad</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Buscar_oportunidad_de_Prospecto</name>
+        <label>Buscar oportunidad de Prospecto</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Qu_hacer_con_la_Oportunidad</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SyncedQuoteId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Buscar_Prospectos.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Buscar_Prospectos</name>
+        <label>Buscar Prospectos</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Existe_el_registro</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Email</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>vEmail</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Lead</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Copia_2_de_Obtener_productos</name>
+        <label>Obtener Nuevo productos</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Crear_Oportunidad_relacionada_a_la_cuenta</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>vTipo_de_cobertura</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Obtener_Lead</name>
+        <label>Obtener Lead</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Obtener_productos</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Crear_Candidato_de_Seguros.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Lead</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Obtener_Nuevos_productos</name>
+        <label>Obtener Nuevos productos</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Crear_Oportunidad_relacionada_al_prospecto</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>vTipo_de_cobertura</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Obtener_productos</name>
+        <label>Obtener productos</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Crear_Oportunidad</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Crear_Candidato_de_Seguros.Tipo_de_cobertura__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Crear_Candidato_de_Seguros</targetReference>
+            <targetReference>Buscar_Cuenta</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
-        <description>Año de fabricación del vehículo (4 dígitos).</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Año de fabricación del vehículo (4 dígitos) en número entero.</description>
         <name>vAnho</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
@@ -229,7 +991,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>Código Postal de 5 dígitos de la ubicación del cliente o del riesgo a asegurar.</description>
+        <description>Pasa aquí el valor recolectado como el Código Postal del usuario</description>
         <name>vCP</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -237,7 +999,22 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>Dirección de correo electrónico de contacto del prospecto.</description>
+        <name>vCrearOportunidad</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Pasa aquí el valor recolectado como el CURP del usuario</description>
+        <name>vCurp</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Dato primario de contacto y llave de identidad. Es obligatorio para procesar cualquier solicitud e identificar clientes existentes.</description>
         <name>vEmail</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -317,6 +1094,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>vOportunidad</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>Descripción de enfermedades o condiciones médicas preexistentes del cliente o sus dependientes.</description>
         <name>vPadecimientos</name>
         <dataType>String</dataType>
@@ -342,6 +1126,14 @@
         <scale>2</scale>
     </variables>
     <variables>
+        <description>RFC del cliente. Úsalo para una validación de identidad fiscal precisa y búsqueda de cuentas existentes.</description>
+        <name>vRFC</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>vSalida</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -349,7 +1141,7 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <description>Califica el nivel de interés del cliente asignando una calificación del 1 al 100, basado en el historial de sus respuestas a las preguntas realizadas durante el chat.</description>
+        <description>Puntaje interno de 0 a 100 calculado por la IA según el interés y completitud de los datos.</description>
         <name>vScoreCalificacion</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>

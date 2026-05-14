@@ -66,10 +66,18 @@
     </conversationDefinitionPlanners>
     <conversationVariables>
         <dataType>Text</dataType>
-        <description>This variable may also be referred to as VerifiedCustomerId</description>
-        <developerName>VerifiedCustomerId</developerName>
+        <description>Stores the authentication key that&apos;s used to generate the verification code.</description>
+        <developerName>authenticationKey</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>VerifiedCustomerId</label>
+        <label>authenticationKey</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Stores the Salesforce user ID or contact ID.</description>
+        <developerName>customerId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>customerId</label>
         <visibility>Internal</visibility>
     </conversationVariables>
     <conversationVariables>
@@ -90,21 +98,14 @@
     </conversationVariables>
     <conversationVariables>
         <dataType>Text</dataType>
-        <description>Stores the Salesforce user ID or contact ID.</description>
-        <developerName>customerId</developerName>
+        <description>This variable may also be referred to as VerifiedCustomerId</description>
+        <developerName>VerifiedCustomerId</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>customerId</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>Stores the authentication key that&apos;s used to generate the verification code.</description>
-        <developerName>authenticationKey</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>authenticationKey</label>
+        <label>VerifiedCustomerId</label>
         <visibility>Internal</visibility>
     </conversationVariables>
     <copilotPrimaryLanguage>es_MX</copilotPrimaryLanguage>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
     <entryDialog>Welcome</entryDialog>
     <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
     <intentV3Enabled>false</intentV3Enabled>

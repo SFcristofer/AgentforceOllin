@@ -1,0 +1,63 @@
+{
+  "required" : [ "birthDate", "coverage", "email", "fullName", "gender", "phone", "vehicleVersionId", "zipCode" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "birthDate" : {
+      "title" : "Fecha de Nacimiento (AAAA-MM-DD)",
+      "description" : "La fecha de nacimiento del conductor en formato estandar Año-Mes-Dia.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "coverage" : {
+      "title" : "Cobertura",
+      "description" : "El tipo de proteccion deseada. Los valores validos son: AMPLIA, LIMITADA o RC (Responsabilidad Civil).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "email" : {
+      "title" : "Email",
+      "description" : "La direccion de correo electronico para enviar la cotización formal.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "fullName" : {
+      "title" : "Nombre Completo",
+      "description" : "El nombre de pila y apellidos del interesado en el seguro.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "gender" : {
+      "title" : "Genero (M/F)",
+      "description" : "El sexo biologico del conductor para calculo de riesgo: M para Masculino, F para Femenino.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "phone" : {
+      "title" : "Telefono",
+      "description" : "El numero celular o local de contacto del usuario.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vehicleVersionId" : {
+      "title" : "ID de Version del Vehiculo",
+      "description" : "El identificador tecnico de la version del auto elegida en el paso 1.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "zipCode" : {
+      "title" : "Codigo Postal",
+      "description" : "El CP de 5 digitos de la zona donde circula el vehiculo.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

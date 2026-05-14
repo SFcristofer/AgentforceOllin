@@ -1,0 +1,21 @@
+{
+  "required" : [ "insurerName", "userInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "insurerName" : {
+      "title" : "Nombre de la Aseguradora",
+      "description" : "Nombre de la aseguradora para garantizar que el mapeo de código sea el correcto para sus sistemas.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "userInput" : {
+      "title" : "Texto del Usuario",
+      "description" : "SÓLO CÓDIGO TÉCNICO (ej. 9BJG). ¡PROHIBIDO ENVIAR TEXTO! Si el usuario te dio un nombre (ej. 'Empleado'), DEBES ejecutar obligatoriamente la acción '[Ollin] Mapear\n  Texto a Código API' para obtener el código antes de intentar esta emisión. No mandes el nombre del usuario directamente aquí o la API fallará.\"",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

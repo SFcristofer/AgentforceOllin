@@ -1,0 +1,14 @@
+{
+  "required" : [ "insurerName" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "insurerName" : {
+      "title" : "Nombre de la Aseguradora",
+      "description" : "El nombre de la compañía de seguros (ej. HDI, ANA, GNP). Esto asegura que se devuelvan los códigos técnicos correctos para esa empresa específica.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

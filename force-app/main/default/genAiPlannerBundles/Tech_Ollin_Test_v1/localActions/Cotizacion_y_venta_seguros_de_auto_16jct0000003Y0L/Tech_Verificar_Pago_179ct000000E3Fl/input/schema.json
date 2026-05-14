@@ -1,0 +1,14 @@
+{
+  "required" : [ "policyId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "policyId" : {
+      "title" : "ID de Poliza",
+      "description" : "Identificador unico de la poliza obtenido en el paso de emision.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

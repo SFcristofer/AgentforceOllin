@@ -1,0 +1,13 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "filter" : {
+      "title" : "Filtro de Catálogo",
+      "description" : "Parámetro opcional para filtrar los resultados del catálogo. Puede ser el nombre de una aseguradora específica o un término de búsqueda para reducir la lista.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -1,0 +1,21 @@
+{
+  "required" : [ "insurerName", "quotationId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "insurerName" : {
+      "title" : "Aseguradora Seleccionada",
+      "description" : "Nombre de la aseguradora (ej. ANA, HDI).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "quotationId" : {
+      "title" : "ID de Cotizacion",
+      "description" : "Identificador unico de la cotizacion.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

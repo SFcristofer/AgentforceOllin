@@ -1,0 +1,63 @@
+{
+  "required" : [ "birthDate", "coverage", "gender", "insuredName", "phone", "vehicleVersionId", "zipCode" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "birthDate" : {
+      "title" : "Fecha de nacimiento",
+      "description" : "Formato ISO 8601: 1990-03-15",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "coverage" : {
+      "title" : "Tipo de cobertura",
+      "description" : "AMPLIA, LIMITADA o RC",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "email" : {
+      "title" : "Email",
+      "description" : "Correo electronico del asegurado",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "gender" : {
+      "title" : "Genero",
+      "description" : "M para masculino, F para femenino",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "insuredName" : {
+      "title" : "Nombre del asegurado",
+      "description" : "Nombre completo del conductor",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "phone" : {
+      "title" : "Telefono",
+      "description" : "Telefono con codigo de pais ej +525512345678",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "vehicleVersionId" : {
+      "title" : "ID Version Vehiculo",
+      "description" : "vehicleVersionId del catalogo",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "zipCode" : {
+      "title" : "Codigo Postal",
+      "description" : "CP mexicano de 5 digitos",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

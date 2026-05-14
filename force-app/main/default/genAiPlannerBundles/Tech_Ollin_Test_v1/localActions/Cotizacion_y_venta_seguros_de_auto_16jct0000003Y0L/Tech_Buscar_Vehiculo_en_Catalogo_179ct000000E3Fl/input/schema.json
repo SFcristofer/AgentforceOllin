@@ -1,0 +1,35 @@
+{
+  "required" : [ "searchType", "year" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "brandId" : {
+      "title" : "ID de Marca",
+      "description" : "El identificador unico de la marca obtenido previamente. Es obligatorio cuando searchType es models.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "modelId" : {
+      "title" : "ID de Modelo",
+      "description" : "El identificador unico del modelo obtenido previamente. Es obligatorio cuando searchType es versions.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "searchType" : {
+      "title" : "Tipo de Busqueda",
+      "description" : "Define que nivel de catalogo buscar. Los valores permitidos son: years (para años), brands (para marcas), models (para modelos) o versions (para versiones del auto).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "year" : {
+      "title" : "Anio",
+      "description" : "El año de fabricacion del vehiculo. Es obligatorio cuando searchType es brands, models o versions.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

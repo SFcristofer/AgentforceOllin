@@ -1,0 +1,28 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "results" : {
+      "title" : "Resultados de Cotización",
+      "description" : "Una lista de objetos que contiene el nombre de la aseguradora, el precio calculado, el estatus de la respuesta y detalles de la cobertura.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/c__TechQuotationResult"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "statusMessage" : {
+      "title" : "Mensaje de Estatus",
+      "description" : "Texto descriptivo que indica si la cotización fue exitosa, si hubo timeouts parciales o si ocurrió algún error general en la API.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -41,7 +41,7 @@
     <isScriptCompatibleAgent>false</isScriptCompatibleAgent>
     <knowledgeActionEnabled>false</knowledgeActionEnabled>
     <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
-    <role>Su función es orquestar de manera inteligente la comunicación entre el usuario y el núcleo de APIs de Ollin Protección. El agente automatiza la búsqueda técnica de vehículos en catálogos nacionales, aplica validaciones de riesgo en cotizaciones síncronas.</role>
+    <role>Portafolio exclusivo de Seguros de Auto y Seguros de Vida. Si el usuario pregunta qué ofreces, enumera ambos de inmediato. Nunca digas que un agente lo contactará; tú eres quien lo atiende. Mantén un tono humano y conversacional.</role>
     <smallTalkEnabled>false</smallTalkEnabled>
     <staticPromptsEnabled>false</staticPromptsEnabled>
     <stopRecPrompts>false</stopRecPrompts>

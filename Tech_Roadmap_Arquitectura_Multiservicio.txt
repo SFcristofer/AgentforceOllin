@@ -1,0 +1,57 @@
+ROADMAP: EVOLUCIÓN AGENTFORCE OLLIN TEST (ARQUITECTURA MULTISERVICIO)
+=============================================================
+Agente Objetivo: Agentforce Ollin Test (Tech_Ollin_Test)
+Estado Actual: Validador Procedural 100% Auto (Tech_ v3)
+Objetivo: Transformación a Orquestador Multiramo de Alta Precisión
+-------------------------------------------------------------
+
+FASE 1: REESTRUCTURACIÓN POR "TOPICS" (Cimientos)
+-------------------------------------------------
+1.1. Segmentación de Instrucciones:
+   - Extraer la lógica de "6 pasos de Auto" del Role principal del Agente.
+   - Crear el Topic "Seguros de Auto" en Salesforce Setup.
+   - Migrar acciones Tech_ (Catalog, Quote, Fields, Submit) exclusivamente a este Topic.
+
+1.2. Implementación de Memoria Compartida:
+   - Asegurar que variables como 'firstName', 'email' y 'rfc' sean accesibles entre Topics.
+   - Configurar el "Intent Classifier" para derivación automática de flujos.
+
+FASE 2: MÓDULO DE SEGUROS DE VIDA (Expansión)
+---------------------------------------------
+2.1. Desarrollo de Capa Apex (Backend):
+   - Crear 'Tech_MueveteSeguroLifeService' para cotizaciones de Vida.
+   - Implementar DTOs específicos para ramos de personas.
+
+2.2. Acciones de IA (GenAiFunctions):
+   - 'Tech_GetLifeRates': Obtener costos basados en edad/hábitos.
+   - 'Tech_SubmitLifeApp': Procesar la solicitud de emisión de vida.
+
+2.3. Configuración del Topic "Seguros de Vida":
+   - Instrucciones específicas para el flujo de vida (No VIN, No CP de circulación).
+
+FASE 3: MÓDULO DE GESTIÓN Y FIANZAS (Servicio Post-Venta)
+---------------------------------------------------------
+3.1. Funciones de Consulta:
+   - 'Tech_CheckPolicyStatus': Consulta de estatus de cualquier póliza (Auto/Vida/Fianzas).
+   - 'Tech_DownloadPolicy': Generación de link de descarga de PDF.
+
+3.2. Configuración del Topic "Gestión de Pólizas":
+   - Enfoque en resolución de dudas y estatus técnico.
+
+FASE 4: UNIFICACIÓN Y CALIDAD (Consolidación)
+---------------------------------------------
+4.1. Globalización de 'Tech_Lead':
+   - Modificar el flujo de Lead para que acepte el parámetro 'Ramo' (Auto/Vida/Fianzas).
+   - Asegurar que el equipo comercial (SDR) reciba el contexto correcto.
+
+4.2. Validación Cruzada:
+   - Pruebas de "Switching": Iniciar en Auto y cambiar a Vida a mitad de sesión para validar persistencia de datos personales.
+
+-------------------------------------------------------------
+PRÓXIMOS PASOS TÉCNICOS:
+1. Crear el Topic de Auto en el Agente y mover las acciones.
+2. Definir los endpoints necesarios para el servicio de Vida.
+3. Actualizar Tech_Instrucciones_Maestras_Definitivas con la nueva estructura de Topics.
+=============================================================
+Fecha de creación: 12 de mayo de 2026
+Autor: Gemini CLI / Equipo Tech Ollin

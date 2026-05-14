@@ -1,0 +1,109 @@
+{
+  "required" : [ "allRequiredFields", "birthDate", "curp", "email", "firstName", "maritalStatus", "maternalSurname", "occupation", "paternalSurname", "phone", "quotationId", "rfc", "street", "vin" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "allRequiredFields" : {
+      "title" : "Lista de Opciones Dinamicas",
+      "description" : "Recibe la lista requiredFields de la acción anterior para validar códigos internos de la aseguradora.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/c__Tech_MueveteSeguroWrappers$RequiredField"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "birthDate" : {
+      "title" : "Fecha de Nacimiento",
+      "description" : "Fecha en formato AAAA-MM-DD del asegurado.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "curp" : {
+      "title" : "CURP",
+      "description" : "Clave Única de Registro de Población (18 caracteres). Pídelo siempre para completar el expediente.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "email" : {
+      "title" : "Email",
+      "description" : "Correo electrónico para el envío de la póliza digital.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "firstName" : {
+      "title" : "Nombres (Pila)",
+      "description" : "Recolecta el Nombre o nombres del asegurado (sin apellidos).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "maritalStatus" : {
+      "title" : "Estado Civil",
+      "description" : "Situación civil del cliente",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "maternalSurname" : {
+      "title" : "Apellido Materno",
+      "description" : "Recolecta el Segundo apellido del asegurado.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "occupation" : {
+      "title" : "Ocupacion",
+      "description" : "Actividad laboral del cliente. Usa los valores proporcionados por el catálogo de la aseguradora.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "paternalSurname" : {
+      "title" : "Apellido Paterno",
+      "description" : "Recolecta el Primer apellido del asegurado.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "phone" : {
+      "title" : "Telefono",
+      "description" : "Número telefónico de contacto a 10 dígitos.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "quotationId" : {
+      "title" : "ID de Cotizacion",
+      "description" : "El identificador único de la cotización seleccionada en el paso anterior.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "rfc" : {
+      "title" : "RFC",
+      "description" : "Registro Federal de Contribuyentes (13 caracteres). Pídelo si la aseguradora lo requiere para la emisión.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "street" : {
+      "title" : "Calle y Numero",
+      "description" : "Dirección completa del asegurado incluyendo calle, número exterior e interior.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "vin" : {
+      "title" : "Numero de Serie (VIN)",
+      "description" : "Número de identificación vehicular de 17 caracteres. Es indispensable para la emisión de la póliza.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
