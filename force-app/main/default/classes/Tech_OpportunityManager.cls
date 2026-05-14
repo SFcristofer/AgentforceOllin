@@ -35,11 +35,11 @@ public with sharing class Tech_OpportunityManager {
         public String vehicleModel;
 
         // --- PLAN Y COBERTURA ---
-        @InvocableVariable(description='Nombre del plan o tipo de cobertura (ej: Amplia, Limitada, Platino). Mapea a Subproducto__c.')
-        public String subproducto;
-
         @InvocableVariable(description='ID del Producto del catálogo de Salesforce. Mapea a Producto__c.')
         public Id productId;
+
+        @InvocableVariable(description='Nombre del plan o cobertura para búsqueda automática si no hay ID.')
+        public String planName;
 
         // --- PAGO Y VIGENCIA ---
         @InvocableVariable(description='Forma de pago elegida (Transferencia, Tarjeta, Domiciliación, etc.). Mapea a Metodo_Pago__c.')
@@ -139,7 +139,6 @@ public with sharing class Tech_OpportunityManager {
 
                 // 4. MAPEO DE CAMPOS PERSONALIZADOS (1 a 1)
                 opp.Ramo__c = req.ramo;
-                opp.Subproducto__c = req.subproducto;
                 opp.PctComisionOllin__c = req.commissionPercent;
                 opp.Metodo_Pago__c = req.metodoPago;
                 opp.Periodo_Pago__c = req.periodoPago;
@@ -158,8 +157,21 @@ public with sharing class Tech_OpportunityManager {
                 opp.URL_Poliza__c = req.urlPoliza;
                 opp.Tipo_Originador__c = String.isNotBlank(req.tipoOriginador) ? req.tipoOriginador : 'Digital';
                 
-                // Relaciones
-                opp.Producto__c = (req.productId != null) ? req.productId : mapProduct(req.ramo, req.subproducto);
+                // --- ARQUITECTURA DE PRODUCTO TOTALMENTE SINCRONIZADA ---
+                Id finalProductId = req.productId;
+
+                if (finalProductId == null) {
+                    // Si no hay ID, usamos nuestro motor de mapeo inteligente por Ramo para obtener el ID de Producto real
+                    Product2 officialProduct = getOfficialProduct(req.ramo, req.planName);
+                    if (officialProduct != null) {
+                        finalProductId = officialProduct.Id;
+                    }
+                }
+
+                // Asignación final al Lookup de Producto únicamente
+                opp.Producto__c = finalProductId;
+
+                // Relaciones restantes
                 opp.Institucion__c = req.institucionId;
                 opp.Vendedor_A__c = (req.vendedorId != null) ? req.vendedorId : 'a0Qct00000Fj2UrEAJ';
                 opp.Poliza_Renovar__c = req.polizaRenovarId;
@@ -201,32 +213,41 @@ public with sharing class Tech_OpportunityManager {
     }
 
     /**
-     * @description Mapea el ramo y subproducto a un ID de Producto real en Salesforce.
-     * Utiliza los códigos técnicos de producto (ProductCode) identificados en el catálogo.
+     * @description Obtiene el registro oficial de Producto basado en el ramo y subproducto.
+     * Devuelve el objeto completo para acceder al Id y al Name oficial.
      */
-    private static Id mapProduct(String ramo, String subproducto) {
+    private static Product2 getOfficialProduct(String ramo, String subproducto) {
         if (String.isBlank(ramo)) return null;
 
         String searchCode = '';
         String cleanRamo = ramo.toUpperCase();
         String cleanSub = String.isNotBlank(subproducto) ? subproducto.toUpperCase() : '';
 
-        if (cleanRamo.contains('AUTO')) {
-            if (cleanSub.contains('AMPLIA')) searchCode = 'AUTO-AMPLIA';
-            else if (cleanSub.contains('LIMITADA')) searchCode = 'AUTO-LIMITADA';
-            else if (cleanSub.contains('RC')) searchCode = 'AUTO-RC';
-            else searchCode = 'AUTO-AMPLIA'; // Default para autos
+        // 1. DETERMINACIÓN DEL CÓDIGO POR RAMO (ESTRICTO)
+        if (cleanRamo.contains('AUTO') || cleanRamo.contains('VEHICULO')) {
+            if (cleanSub.contains('AMPLIA') || cleanSub.contains('AMPLIO')) searchCode = 'AUTO-AMPLIA';
+            else if (cleanSub.contains('LIMITADA') || cleanSub.contains('LIMITADO')) searchCode = 'AUTO-LIMITADA';
+            else if (cleanSub.contains('RC') || cleanSub.contains('RESPONSABILIDAD')) searchCode = 'AUTO-RC';
+            else searchCode = 'AUTO-AMPLIA'; 
         } 
-        else if (cleanRamo.contains('VIDA')) searchCode = 'VIDA-001';
-        else if (cleanRamo.contains('GMM') || cleanRamo.contains('MEDIC')) searchCode = 'GMM-001';
-        else if (cleanRamo.contains('PPR') || cleanRamo.contains('RETIRO')) searchCode = 'PPR-001';
-        else if (cleanRamo.contains('FIANZA')) searchCode = 'FZA-CUMP';
+        else if (cleanRamo.contains('VIDA')) {
+            searchCode = 'VIDA-001';
+        }
+        else if (cleanRamo.contains('GMM') || cleanRamo.contains('MEDIC') || cleanRamo.contains('GASTOS')) {
+            searchCode = 'GMM-001';
+        }
+        else if (cleanRamo.contains('PPR') || cleanRamo.contains('RETIRO') || cleanRamo.contains('AHORRO')) {
+            searchCode = 'PPR-001';
+        }
+        else if (cleanRamo.contains('FIANZA')) {
+            searchCode = 'FZA-CUMP';
+        }
 
         if (String.isBlank(searchCode)) return null;
 
         try {
-            List<Product2> prods = [SELECT Id FROM Product2 WHERE ProductCode = :searchCode AND IsActive = true LIMIT 1];
-            return prods.isEmpty() ? null : prods[0].Id;
+            List<Product2> prods = [SELECT Id, Name FROM Product2 WHERE ProductCode = :searchCode AND IsActive = true LIMIT 1];
+            return prods.isEmpty() ? null : prods[0];
         } catch (Exception e) {
             return null;
         }
