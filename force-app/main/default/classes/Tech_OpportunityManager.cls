@@ -140,7 +140,8 @@ public with sharing class Tech_OpportunityManager {
                 // 4. MAPEO DE CAMPOS PERSONALIZADOS (1 a 1)
                 opp.Ramo__c = req.ramo;
                 opp.PctComisionOllin__c = req.commissionPercent;
-                opp.Metodo_Pago__c = req.metodoPago;
+                opp.Metodo_Pago__c = 'Transferencia (SPEI)';
+                opp.Type = 'Nuevo';
                 opp.Periodo_Pago__c = req.periodoPago;
                 opp.Numero_Pagos__c = req.numeroPagos;
                 opp.Fecha_Inicio_Vigencia__c = (req.fechaInicio != null) ? req.fechaInicio : System.today();
@@ -157,14 +158,26 @@ public with sharing class Tech_OpportunityManager {
                 opp.URL_Poliza__c = req.urlPoliza;
                 opp.Tipo_Originador__c = String.isNotBlank(req.tipoOriginador) ? req.tipoOriginador : 'Digital';
                 
-                // --- ARQUITECTURA DE PRODUCTO TOTALMENTE SINCRONIZADA ---
+                // --- ARQUITECTURA DE PRODUCTO: PRIORIDAD EN NOMBRE PARA AGENTFORCE ---
+                // Se busca primero por nombre/ramo ya que el Agente de IA no maneja IDs internos.
+                // El productId se usa solo como último recurso si el mapeo por nombre falla.
+                Product2 officialProduct = getOfficialProduct(req.ramo, req.planName);
                 Id finalProductId = req.productId;
+                Id finalInstitucionId = req.institucionId;
 
-                if (finalProductId == null) {
-                    // Si no hay ID, usamos nuestro motor de mapeo inteligente por Ramo para obtener el ID de Producto real
-                    Product2 officialProduct = getOfficialProduct(req.ramo, req.planName);
-                    if (officialProduct != null) {
-                        finalProductId = officialProduct.Id;
+                if (officialProduct != null) {
+                    finalProductId = officialProduct.Id;
+                    // Sincronizar la Institución del Producto si no viene en el Request para cumplir Lookup Filter
+                    if (finalInstitucionId == null) {
+                        finalInstitucionId = officialProduct.Institucion__c;
+                    }
+                } else if (finalProductId != null && finalInstitucionId == null) {
+                    // Fallback: si tenemos ID de producto pero no de institución, consultamos el producto
+                    try {
+                        Product2 pFallback = [SELECT Institucion__c FROM Product2 WHERE Id = :finalProductId LIMIT 1];
+                        finalInstitucionId = pFallback.Institucion__c;
+                    } catch (Exception e) {
+                        // Silencioso
                     }
                 }
 
@@ -172,7 +185,7 @@ public with sharing class Tech_OpportunityManager {
                 opp.Producto__c = finalProductId;
 
                 // Relaciones restantes
-                opp.Institucion__c = req.institucionId;
+                opp.Institucion__c = finalInstitucionId;
                 opp.Vendedor_A__c = (req.vendedorId != null) ? req.vendedorId : 'a0Qct00000Fj2UrEAJ';
                 opp.Poliza_Renovar__c = req.polizaRenovarId;
 
@@ -213,17 +226,27 @@ public with sharing class Tech_OpportunityManager {
     }
 
     /**
-     * @description Obtiene el registro oficial de Producto basado en el ramo y subproducto.
-     * Devuelve el objeto completo para acceder al Id y al Name oficial.
+     * @description Obtiene el registro oficial de Producto basado en el nombre o el ramo.
+     * Prioriza la búsqueda por nombre exacto para facilitar la integración con Agentforce.
      */
     private static Product2 getOfficialProduct(String ramo, String subproducto) {
+        // 1. INTENTO DE BÚSQUEDA POR NOMBRE EXACTO (Prioridad para Agentforce)
+        if (String.isNotBlank(subproducto)) {
+            try {
+                List<Product2> byName = [SELECT Id, Name, Institucion__c FROM Product2 WHERE Name = :subproducto AND IsActive = true LIMIT 1];
+                if (!byName.isEmpty()) return byName[0];
+            } catch (Exception e) {
+                // Silencioso para pasar al siguiente nivel de detección
+            }
+        }
+
         if (String.isBlank(ramo)) return null;
 
         String searchCode = '';
         String cleanRamo = ramo.toUpperCase();
         String cleanSub = String.isNotBlank(subproducto) ? subproducto.toUpperCase() : '';
 
-        // 1. DETERMINACIÓN DEL CÓDIGO POR RAMO (ESTRICTO)
+        // 2. DETERMINACIÓN DEL CÓDIGO POR RAMO (FALLBACK SI EL NOMBRE NO COINCIDIÓ)
         if (cleanRamo.contains('AUTO') || cleanRamo.contains('VEHICULO')) {
             if (cleanSub.contains('AMPLIA') || cleanSub.contains('AMPLIO')) searchCode = 'AUTO-AMPLIA';
             else if (cleanSub.contains('LIMITADA') || cleanSub.contains('LIMITADO')) searchCode = 'AUTO-LIMITADA';
@@ -246,7 +269,7 @@ public with sharing class Tech_OpportunityManager {
         if (String.isBlank(searchCode)) return null;
 
         try {
-            List<Product2> prods = [SELECT Id, Name FROM Product2 WHERE ProductCode = :searchCode AND IsActive = true LIMIT 1];
+            List<Product2> prods = [SELECT Id, Name, Institucion__c FROM Product2 WHERE ProductCode = :searchCode AND IsActive = true LIMIT 1];
             return prods.isEmpty() ? null : prods[0];
         } catch (Exception e) {
             return null;
